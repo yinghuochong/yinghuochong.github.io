@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、Runtime是什么？首先需要理解静态语言和动态语言，才能更好的理解Runtime 静态语言：比如C语言，编译阶段就需要决定好调用哪个函数，如果函数未实现就会编译报错。动态语言：比如OC，编译阶段不决定真正调用哪个函数，只要函数声明过，即使没有实现也不会报错。把决定调用的工作推迟到运行阶段。 所以就需要一个运行时系统来执行编译后的代码，正确的调用函数。Runtime就是OC的运行时系统。决定函">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Runtime">
+<meta property="og:url" content="http://yinghuochong.github.io/2019/07/13/ios-runtime/index.html">
+<meta property="og:site_name" content="萤火虫">
+<meta property="og:description" content="1、Runtime是什么？首先需要理解静态语言和动态语言，才能更好的理解Runtime 静态语言：比如C语言，编译阶段就需要决定好调用哪个函数，如果函数未实现就会编译报错。动态语言：比如OC，编译阶段不决定真正调用哪个函数，只要函数声明过，即使没有实现也不会报错。把决定调用的工作推迟到运行阶段。 所以就需要一个运行时系统来执行编译后的代码，正确的调用函数。Runtime就是OC的运行时系统。决定函">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/ios-runtime/media/15530759418982.jpg">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/ios-runtime/media/15531629732766.jpg">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/ios-runtime/media/15532226954029.jpg">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/ios-runtime/media/15532228039364.jpg">
+<meta property="og:updated_time" content="2019-07-22T02:46:46.064Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Runtime">
+<meta name="twitter:description" content="1、Runtime是什么？首先需要理解静态语言和动态语言，才能更好的理解Runtime 静态语言：比如C语言，编译阶段就需要决定好调用哪个函数，如果函数未实现就会编译报错。动态语言：比如OC，编译阶段不决定真正调用哪个函数，只要函数声明过，即使没有实现也不会报错。把决定调用的工作推迟到运行阶段。 所以就需要一个运行时系统来执行编译后的代码，正确的调用函数。Runtime就是OC的运行时系统。决定函">
+<meta name="twitter:image" content="http://yinghuochong.github.io/2019/07/13/ios-runtime/media/15530759418982.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yinghuochong.github.io/2019/07/13/ios-runtime/">
+
+
+
+
+
+  <title>Runtime | 萤火虫</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f54dcdf35994e9f2356bfc17a31dfd44";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">萤火虫</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不是bug</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yinghuochong.github.io/2019/07/13/ios-runtime/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="萤火虫">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/2938786?v=3&u=bfbfd2920ad7fcf69e16db28c68d58ad84e39cfd&s=400">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="萤火虫">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Runtime</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-13T16:34:15+08:00">
+                2019-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/13/ios-runtime/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/13/ios-runtime/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1、Runtime是什么？"><a href="#1、Runtime是什么？" class="headerlink" title="1、Runtime是什么？"></a>1、Runtime是什么？</h1><p>首先需要理解静态语言和动态语言，才能更好的理解Runtime</p>
+<p>静态语言：比如C语言，编译阶段就需要决定好调用哪个函数，如果函数未实现就会编译报错。<br>动态语言：比如OC，编译阶段不决定真正调用哪个函数，只要函数声明过，即使没有实现也不会报错。把决定调用的工作推迟到运行阶段。</p>
+<p>所以就需要一个运行时系统来执行编译后的代码，正确的调用函数。Runtime就是OC的运行时系统。<br>决定函数调用是Runtime最重要的工作。</p>
+<a id="more"></a>
+<h1 id="2、-receiver-message-背后到底发生了什么？"><a href="#2、-receiver-message-背后到底发生了什么？" class="headerlink" title="2、[receiver message] 背后到底发生了什么？"></a>2、[receiver message] 背后到底发生了什么？</h1><p>编译器会将 调用方法转成下面这个方法的调用：</p>
+<p><code>objc_msgSend(id _Nullable self, SEL _Nonnull op, ...)</code></p>
+<p>第一个参数是id 类型，它是一个指向类实例的指针：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/// A pointer to an instance of a class.</span><br><span class="line">typedef struct objc_object *id;</span><br></pre></td></tr></table></figure>
+<p>这里 objc_object 是一个结构体：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/// Represents an instance of a class.</span><br><span class="line">struct objc_object &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>isa 指针不总是指向实例对象所属的类，不能依靠它来确定类型。因为KVO的原理就是把对象的isa指针指向一个中间类。可以用 class 方法来确定实例对象的类。</p>
+<p>Class 其实是一个指向 objc_class 的指针：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/// An opaque type that represents an Objective-C class.</span><br><span class="line">typedef struct objc_class *Class;</span><br></pre></td></tr></table></figure></p>
+<p>objc_class 的结构大概是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">struct objc_class &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br></pre></td></tr></table></figure></p>
+<p>objc_class 里包含：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Class _Nullable super_class;  //父类</span><br><span class="line">const char * _Nonnull name  //类名;</span><br><span class="line">long version; //版本</span><br><span class="line">long info; //</span><br><span class="line">long instance_size; //</span><br><span class="line">struct objc_ivar_list * _Nullable ivars; //实例变量列表</span><br><span class="line">struct objc_method_list * _Nullable * _Nullable methodLists;//方法列表</span><br><span class="line">struct objc_cache * _Nonnull cache; //缓存</span><br><span class="line">struct objc_protocol_list * _Nullable protocols; //协议列表</span><br></pre></td></tr></table></figure></p>
+<p>第二个参数 SEL 本质是 objc_selector 结构体</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/// An opaque type that represents a method selector.</span><br><span class="line">typedef struct objc_selector *SEL;</span><br></pre></td></tr></table></figure>
+<p>可以用 Objc编译命令 @selector()  或者 Runtime 系统的 sel_registerName 函数来获得一个 SEL 类型的方法选择器。</p>
+<p>不同类中相同名字的方法对应的 方法选择器 是相同的，即使参数类型不同。</p>
+<p>上面的调用中[receiver message]，在编译阶段确定了向哪个接收者发送message消息，但是接受者具体如何响应决定于运行时的判断。</p>
+<p>具体流程是：<br>1、检测selector 是不是需要忽略的。比如 Mac OS X 开发，有了垃圾回收就不理会retain,release 这些函数了。</p>
+<p>2、检测target 是不是nil 对象。ObjC 的特性是允许对一个 nil对象执行任何一个方法不会 Crash，因为会被忽略掉。</p>
+<p>3、如果上面两个都过了，那就开始查找这个类的 IMP，先从 cache 里面找，若可以找得到就跳到对应的函数去执行。</p>
+<p>4、如果在cache里找不到就找一下方法列表methodLists。</p>
+<p>5、如果methodLists找不到，就到超类的方法列表里寻找，一直找，直到找到NSObject类为止。</p>
+<p>6、如果还找不到，Runtime就提供了如下三种方法来处理：动态方法解析、消息接受者重定向、消息重定向，这三种方法的调用关系如下图：</p>
+<p><img src="media/15530759418982.jpg" alt></p>
+<p>其中：<br>1.动态方法解析(Dynamic Method Resolution)<br>所谓动态解析，我们可以理解为通过cache和方法列表没有找到方法时，Runtime为我们提供一次动态添加方法实现的机会，主要用到的方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//OC方法：</span><br><span class="line">//类方法未找到时调起，可于此添加类方法实现</span><br><span class="line">+ (BOOL)resolveClassMethod:(SEL)sel</span><br><span class="line">//实例方法未找到时调起，可于此添加实例方法实现</span><br><span class="line">+ (BOOL)resolveInstanceMethod:(SEL)sel</span><br><span class="line"></span><br><span class="line">//Runtime方法：</span><br><span class="line">/**</span><br><span class="line"> 运行时方法：向指定类中添加特定方法实现的操作</span><br><span class="line"> @param cls 被添加方法的类</span><br><span class="line"> @param name selector方法名</span><br><span class="line"> @param imp 指向实现方法的函数指针</span><br><span class="line"> @param types imp函数实现的返回值与参数类型</span><br><span class="line"> @return 添加方法是否成功</span><br><span class="line"> */</span><br><span class="line">BOOL class_addMethod(Class _Nullable cls,</span><br><span class="line">                     SEL _Nonnull name,</span><br><span class="line">                     IMP _Nonnull imp,</span><br><span class="line">                     const char * _Nullable types)</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>消息接收者重定向<br>我们注意到动态方法解析过程中的两个resolve方法都返回了布尔值，当它们返回YES时方法即可正常执行，但是若它们返回NO，消息发送机制就进入了消息转发(Forwarding)的阶段了，我们可以使用Runtime通过下面的方法替换消息接收者的为其他对象，从而保证程序的继续执行。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//重定向类方法的消息接收者，返回一个类;</span><br><span class="line">+ (id)forwardingTargetForSelector:(SEL)aSelector</span><br><span class="line"></span><br><span class="line">//重定向实例方法的消息接受者，返回一个实例对象;如果这个方法返回了self会导致死循环</span><br><span class="line">- (id)forwardingTargetForSelector:(SEL)aSelector</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>消息重定向<br>当以上两种方法无法生效，那么这个对象会因为找不到相应的方法实现而无法响应消息，此时Runtime系统会通过forwardInvocation：消息通知该对象，给予此次消息发送最后一次寻找IMP的机会：</li>
+</ol>
+<p><code>- (void)forwardInvocation:(NSInvocation *)anInvocation；</code></p>
+<p>每个对象都从NSObject类中继承了forwardInvocation：方法，但是NSObject中的这个方法只是简单的调用了doesNotRecongnizeSelector:方法，提示我们错误。所以我们可以重写这个方法：对不能处理的消息做一些默认处理，也可以将消息转发给其他对象来处理，而不抛出错误。</p>
+<p>anInvocation是forwardInvocation唯一参数，它封装了原始的消息和消息参数。正是因为它，我们还不得不重写另一个函数：methodSignatureForSelector。这是因为在forwardInvocation: 消息发送前，Runtime系统会向对象发送methodSignatureForSelector消息，并取到返回的方法签名用于生成NSInvocation对象。</p>
+<p>注意：<br>1、forwardingTargetForSelector仅支持一个对象的返回，也就是说消息只能被转发给一个对象，而forwardInvocation可以将消息同时转发给任意多个对象，这就是两者的最大区别。<br>2、虽然理论上可以重载doesNotRecognizeSelector函数实现保证不抛出异常（不调用super实现），但是苹果文档着重提出“一定不能让这个函数就这么结束掉，必须抛出异常”<br>3、forwardInvocation甚至能够修改消息的内容，用于实现更加强大的功能。</p>
+<p>#3、isKindOfClass:、isSubclassOfClass:和isMemberOfClass: 分别是什么？有什么区别？原理是什么？</p>
+<p>isKindOfClass:判断一个对象是否是 参数 的实例，或者参数父类的实例</p>
+<p>isMemberOfClass: 判断一个对象是不是当前类的一个实例，是否跟父类有关系他不管，必须是当前类</p>
+<p>isSubclassOfClass：+方法，表示调用该方法的类 是不是 参数类的一个子类 或者 是这个类的本身，和isKindOfClass类似</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">+ (BOOL)isKindOfClass:(Class)cls &#123;</span><br><span class="line">    for (Class tcls = object_getClass((id)self); tcls; tcls = tcls-&gt;superclass) &#123;</span><br><span class="line">        if (tcls == cls) return YES;</span><br><span class="line">    &#125;</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)isKindOfClass:(Class)cls &#123;</span><br><span class="line">    for (Class tcls = [self class]; tcls; tcls = tcls-&gt;superclass) &#123;</span><br><span class="line">        if (tcls == cls) return YES;</span><br><span class="line">    &#125;</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (BOOL)isMemberOfClass:(Class)cls &#123;</span><br><span class="line">    return object_getClass((id)self) == cls;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)isMemberOfClass:(Class)cls &#123;</span><br><span class="line">    return [self class] == cls;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (BOOL)isSubclassOfClass:(Class)cls &#123;</span><br><span class="line">    for (Class tcls = self; tcls; tcls = tcls-&gt;superclass) &#123;</span><br><span class="line">        if (tcls == cls) return YES;</span><br><span class="line">    &#125;</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#4、class 方法返回的是什么？原理是什么？<br><code>- (Class)class; //返回一个对象的类对象</code><br><code>+ (Class)class; //给类对象发送class消息，会返回类对象自身</code></p>
+<p>内部实现大概是这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+ (Class)class&#123;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line">- (Class)class&#123;</span><br><span class="line">    return object_getClass(self);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而 object_getClass() 方法实际上是返回对象的isa 指针所指的对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class object_getClass(id obj)&#123;</span><br><span class="line">    if (obj) return obj-&gt;getIsa();</span><br><span class="line">    else return Nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="5、还有什么Runtime提供的方法？"><a href="#5、还有什么Runtime提供的方法？" class="headerlink" title="5、还有什么Runtime提供的方法？"></a>5、还有什么Runtime提供的方法？</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-respondsToSelector:    //检查对象能否响应指定的消息；</span><br><span class="line"></span><br><span class="line">-conformsToProtocol:    //检查对象是否实现了指定协议类的方法；</span><br><span class="line"></span><br><span class="line">-methodForSelector:     //返回指定方法实现的地址。</span><br></pre></td></tr></table></figure>
+<h1 id="6、在类方法中self是谁？"><a href="#6、在类方法中self是谁？" class="headerlink" title="6、在类方法中self是谁？"></a>6、在类方法中self是谁？</h1><p>在实例方法中self是 实例对象      [self class] 是类对象<br>在类方法中self是  类对象         [self class] 也是类对象，其实就是他自己</p>
+<h1 id="7、-Runtime能用来干啥"><a href="#7、-Runtime能用来干啥" class="headerlink" title="7、 Runtime能用来干啥?"></a>7、 Runtime能用来干啥?</h1><p>一、动态方法交换：Method Swizzling</p>
+<p>1、实现动态方法交换(Method Swizzling )是Runtime中最具盛名的应用场景，其原理是：通过Runtime获取到方法实现的地址，进而动态交换两个方法的功能。使用到关键方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//获取类方法的Mthod</span><br><span class="line">Method _Nullable class_getClassMethod(Class _Nullable cls, SEL _Nonnull name)</span><br><span class="line">//获取实例对象方法的Mthod</span><br><span class="line">Method _Nullable class_getInstanceMethod(Class _Nullable cls, SEL _Nonnull name)</span><br><span class="line">//交换两个方法的实现</span><br><span class="line">void method_exchangeImplementations(Method _Nonnull m1, Method _Nonnull m2)</span><br></pre></td></tr></table></figure></p>
+<p>2.拦截并替换系统方法<br>Runtime动态方法交换更多的是应用于系统类库和第三方框架的方法替换。在不可见源码的情况下，我们可以借助Rutime交换方法实现，为原有方法添加额外功能，这在实际开发中具有十分重要的意义。<br>一般放到 +load 方法里：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//load方法不需要手动调用，iOS会在应用程序启动的时候自动调起load方法，而且执行时间较早，所以在此方法中执行交换操作比较合适。</span><br><span class="line">+ (void)load&#123;</span><br><span class="line">    //获取系统方法地址</span><br><span class="line">    Method sytemMethod = class_getClassMethod([UIFont class], @selector(systemFontOfSize:));</span><br><span class="line">    //获取自定义方法地址</span><br><span class="line">    Method customMethod = class_getClassMethod([UIFont class], @selector(zs_systemFontOfSize:));</span><br><span class="line">    //交换两个方法的实现</span><br><span class="line">    method_exchangeImplementations(sytemMethod, customMethod);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>二、实现分类添加新属性<br>我们在开发中常常使用类目Category为一些已有的类扩展功能。虽然继承也能够为已有类增加新的方法，而且相比类目更是具有增加属性的优势，但是继承毕竟是一个重量级的操作，添加不必要的继承关系无疑增加了代码的复杂度。</p>
+<p>有时候需要给系统的一些类添加一些属性，也可以用这个实现。</p>
+<p>遗憾的是，OC的类目并不支持直接添加属性，如果我们直接在分类的声明中写入Property属性，那么只能为其生成set与get方法声明，却不能生成成员变量，直接调用这些属性还会造成崩溃。<br>所以为了实现给分类添加属性，我们还需借助Runtime的关联对象(Associated Objects)特性，它能够帮助我们在运行阶段将任意的属性关联到一个对象上，下面是相关的三个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> 1.给对象设置关联属性</span><br><span class="line"> @param object 需要设置关联属性的对象，即给哪个对象关联属性</span><br><span class="line"> @param key 关联属性对应的key，可通过key获取这个属性，</span><br><span class="line"> @param value 给关联属性设置的值</span><br><span class="line"> @param policy 关联属性的存储策略(对应Property属性中的assign,copy，retain等)</span><br><span class="line"> OBJC_ASSOCIATION_ASSIGN             @property(assign)。</span><br><span class="line"> OBJC_ASSOCIATION_RETAIN_NONATOMIC   @property(strong, nonatomic)。</span><br><span class="line"> OBJC_ASSOCIATION_COPY_NONATOMIC     @property(copy, nonatomic)。</span><br><span class="line"> OBJC_ASSOCIATION_RETAIN             @property(strong,atomic)。</span><br><span class="line"> OBJC_ASSOCIATION_COPY               @property(copy, atomic)。</span><br><span class="line"> */</span><br><span class="line">void objc_setAssociatedObject(id _Nonnull object,</span><br><span class="line">                              const void * _Nonnull key,</span><br><span class="line">                              id _Nullable value,</span><br><span class="line">                              objc_AssociationPolicy policy)</span><br><span class="line">/**</span><br><span class="line"> 2.通过key获取关联的属性</span><br><span class="line"> @param object 从哪个对象中获取关联属性</span><br><span class="line"> @param key 关联属性对应的key</span><br><span class="line"> @return 返回关联属性的值</span><br><span class="line"> */</span><br><span class="line">id _Nullable objc_getAssociatedObject(id _Nonnull object,</span><br><span class="line">                                      const void * _Nonnull key)</span><br><span class="line">/**</span><br><span class="line"> 3.移除对象所关联的属性</span><br><span class="line"> @param object 移除某个对象的所有关联属性</span><br><span class="line"> */</span><br><span class="line">void objc_removeAssociatedObjects(id _Nonnull object)</span><br></pre></td></tr></table></figure></p>
+<p>注意：key与关联属性一一对应，我们必须确保其全局唯一性，常用我们使用@selector(methodName)作为key。</p>
+<p>三、获取类的详细信息</p>
+<p>1.获取属性列表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">unsigned int count;</span><br><span class="line">objc_property_t *propertyList = class_copyPropertyList([self class], &amp;count);</span><br><span class="line">for (unsigned int i = 0; i&lt;count; i++) &#123;</span><br><span class="line">    const char *propertyName = property_getName(propertyList[i]);</span><br><span class="line">    NSLog(@&quot;PropertyName(%d): %@&quot;,i,[NSString stringWithUTF8String:propertyName]);</span><br><span class="line">&#125;</span><br><span class="line">free(propertyList);</span><br></pre></td></tr></table></figure></p>
+<p>2.获取所有成员变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Ivar *ivarList = class_copyIvarList([self class], &amp;count);</span><br><span class="line">for (int i= 0; i&lt;count; i++) &#123;</span><br><span class="line">    Ivar ivar = ivarList[i];</span><br><span class="line">    const char *ivarName = ivar_getName(ivar);</span><br><span class="line">    NSLog(@&quot;Ivar(%d): %@&quot;, i, [NSString stringWithUTF8String:ivarName]);</span><br><span class="line">&#125;</span><br><span class="line">free(ivarList);</span><br></pre></td></tr></table></figure></p>
+<p>3.获取所有方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Method *methodList = class_copyMethodList([self class], &amp;count);</span><br><span class="line">for (unsigned int i = 0; i&lt;count; i++) &#123;</span><br><span class="line">    Method method = methodList[i];</span><br><span class="line">    SEL mthodName = method_getName(method);</span><br><span class="line">    NSLog(@&quot;MethodName(%d): %@&quot;,i,NSStringFromSelector(mthodName));</span><br><span class="line">&#125;</span><br><span class="line">free(methodList);</span><br></pre></td></tr></table></figure></p>
+<p>4.获取当前遵循的所有协议<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__unsafe_unretained Protocol **protocolList = class_copyProtocolList([self class], &amp;count);</span><br><span class="line">for (int i=0; i&lt;count; i++) &#123;</span><br><span class="line">    Protocol *protocal = protocolList[i];</span><br><span class="line">    const char *protocolName = protocol_getName(protocal);</span><br><span class="line">    NSLog(@&quot;protocol(%d): %@&quot;,i, [NSString stringWithUTF8String:protocolName]);</span><br><span class="line">&#125;</span><br><span class="line">free(propertyList);</span><br></pre></td></tr></table></figure></p>
+<p>注意：C语言中使用Copy操作的方法，要注意释放指针，防止内存泄漏</p>
+<p>四、解决同一方法高频率调用的效率问题<br>Runtime源码中的IMP作为函数指针，指向方法的实现。通过它，我们可以绕开发送消息的过程来提高函数调用的效率。当我们需要持续大量重复调用某个方法的时候，会十分有用，具体代码示例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void (*setter)(id, SEL, BOOL);</span><br><span class="line">int i;</span><br><span class="line"></span><br><span class="line">setter = (void (*)(id, SEL, BOOL))[target methodForSelector:@selector(setFilled:)];</span><br><span class="line">for ( i = 0 ; i &lt; 1000 ; i++ )</span><br><span class="line">    setter(targetList[i], @selector(setFilled:), YES);</span><br></pre></td></tr></table></figure></p>
+<p>五、方法动态解析与消息转发<br>1.动态方法解析：动态添加方法<br>Runtime足够强大，能够让我们在运行时动态添加一个未实现的方法，这个功能主要有两个应用场景：<br>场景1：动态添加未实现方法，解决代码中因为方法未找到而报错的问题；<br>场景2：利用懒加载思路，若一个类有很多个方法，同时加载到内存中会耗费资源，可以使用动态解析添加方法。方法动态解析主要用到的方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//OC方法：</span><br><span class="line">//类方法未找到时调起，可于此添加类方法实现</span><br><span class="line">+ (BOOL)resolveClassMethod:(SEL)sel</span><br><span class="line"></span><br><span class="line">//实例方法未找到时调起，可于此添加实例方法实现</span><br><span class="line">+ (BOOL)resolveInstanceMethod:(SEL)sel</span><br><span class="line"></span><br><span class="line">//Runtime方法：</span><br><span class="line">/**</span><br><span class="line"> 运行时方法：向指定类中添加特定方法实现的操作</span><br><span class="line"> @param cls 被添加方法的类</span><br><span class="line"> @param name selector方法名</span><br><span class="line"> @param imp 指向实现方法的函数指针</span><br><span class="line"> @param types imp函数实现的返回值与参数类型</span><br><span class="line"> @return 添加方法是否成功</span><br><span class="line"> */</span><br><span class="line">BOOL class_addMethod(Class _Nullable cls,</span><br><span class="line">                     SEL _Nonnull name,</span><br><span class="line">                     IMP _Nonnull imp,</span><br><span class="line">                     const char * _Nullable types)</span><br></pre></td></tr></table></figure></p>
+<p>2.解决方法无响应崩溃问题<br>执行OC方法其实就是一个发送消息的过程，若方法未实现，我们可以利用方法动态解析与消息转发来避免程序崩溃，主要使用到的相关方法如下：<br>消息接收者重定向<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//重定向类方法的消息接收者，返回一个类</span><br><span class="line">- (id)forwardingTargetForSelector:(SEL)aSelector</span><br><span class="line"></span><br><span class="line">//重定向实例方法的消息接受者，返回一个实例对象</span><br><span class="line">- (id)forwardingTargetForSelector:(SEL)aSelector</span><br></pre></td></tr></table></figure></p>
+<p>消息重定向<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (void)forwardInvocation:(NSInvocation *)anInvocation；</span><br><span class="line"></span><br><span class="line">- (NSMethodSignature*)methodSignatureForSelector:(SEL)aSelector;</span><br></pre></td></tr></table></figure></p>
+<p>六、动态操作属性<br>1.动态修改属性变量<br>现在假设这样一个情况：我们使用第三方框架里的Person类，在特殊需求下想要更改其私有属性nickName，这样的操作我们就可以使用Runtime可以动态修改对象属性。<br>基本思路：首先使用Runtime获取Peson对象的所有属性，找到nickName，然后使用ivar的方法修改其值。具体的代码示例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Person *ps = [[Person alloc] init];</span><br><span class="line">NSLog(@&quot;ps-nickName: %@&quot;,[ps valueForKey:@&quot;nickName&quot;]); //null</span><br><span class="line">//第一步：遍历对象的所有属性</span><br><span class="line">unsigned int count;</span><br><span class="line">Ivar *ivarList = class_copyIvarList([ps class], &amp;count);</span><br><span class="line">for (int i= 0; i&lt;count; i++) &#123;</span><br><span class="line">    //第二步：获取每个属性名</span><br><span class="line">    Ivar ivar = ivarList[i];</span><br><span class="line">    const char *ivarName = ivar_getName(ivar);</span><br><span class="line">    NSString *propertyName = [NSString stringWithUTF8String:ivarName];</span><br><span class="line">    if ([propertyName isEqualToString:@&quot;_nickName&quot;]) &#123;</span><br><span class="line">        //第三步：匹配到对应的属性，然后修改；注意属性带有下划线</span><br><span class="line">        object_setIvar(ps, ivar, @&quot;梧雨北辰&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">NSLog(@&quot;ps-nickName: %@&quot;,[ps valueForKey:@&quot;nickName&quot;]); //梧雨北辰</span><br></pre></td></tr></table></figure></p>
+<p>总结：此过程类似KVC的取值和赋值</p>
+<p>2.实现 NSCoding 的自动归档和解档<br>归档是一种常用的轻量型文件存储方式，但是它有个弊端：在归档过程中，若一个Model有多个属性，我们不得不对每个属性进行处理，非常繁琐。<br>归档操作主要涉及两个方法：encodeObject 和 decodeObjectForKey，现在，我们可以利用Runtime来改进它们，关键的代码示例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">//原理：使用Runtime动态获取所有属性</span><br><span class="line">//解档操作</span><br><span class="line">- (instancetype)initWithCoder:(NSCoder *)aDecoder&#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">        unsigned int count = 0;</span><br><span class="line">        </span><br><span class="line">        Ivar *ivarList = class_copyIvarList([self class], &amp;count);</span><br><span class="line">        for (int i = 0; i &lt; count; i++) &#123;</span><br><span class="line">            Ivar ivar = ivarList[i];</span><br><span class="line">            const char *ivarName = ivar_getName(ivar);</span><br><span class="line">            NSString *key = [NSString stringWithUTF8String:ivarName];</span><br><span class="line">            id value = [aDecoder decodeObjectForKey:key];</span><br><span class="line">            [self setValue:value forKey:key];</span><br><span class="line">        &#125;</span><br><span class="line">        free(ivarList); //释放指针</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//归档操作</span><br><span class="line">- (void)encodeWithCoder:(NSCoder *)aCoder&#123;</span><br><span class="line">    unsigned int count = 0;</span><br><span class="line">    </span><br><span class="line">    Ivar *ivarList = class_copyIvarList([self class], &amp;count);</span><br><span class="line">    for (NSInteger i = 0; i &lt; count; i++) &#123;</span><br><span class="line">        Ivar ivar = ivarList[i];</span><br><span class="line">        NSString *key = [NSString stringWithUTF8String:ivar_getName(ivar)];</span><br><span class="line">        </span><br><span class="line">        id value = [self valueForKey:key];</span><br><span class="line">        [aCoder encodeObject:value forKey:key];</span><br><span class="line">    &#125;</span><br><span class="line">    free(ivarList); //释放指针</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3.实现字典与模型的转换<br>字典数据转模型的操作在项目开发中很常见，通常我们会选择第三方如YYModel；其实我们也可以自己来实现这一功能，主要的思路有两种：KVC、Runtime.总结字典转化模型过程中需要解决的问题如下：<br><img src="media/15531629732766.jpg" alt></p>
+<p>现在，我们使用Runtime来实现字典转模型的操作，大致的思路是这样：<br>借助Runtime可以动态获取成员列表的特性，遍历模型中所有属性，然后以获取到的属性名为key，在JSON字典中寻找对应的值value；再将每一个对应Value赋值给模型，就完成了字典转模型的目的。<br>首先准备下面的JSON数据用于测试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;id&quot;:&quot;2462079046&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;梧雨北辰&quot;,</span><br><span class="line">    &quot;age&quot;:&quot;18&quot;,</span><br><span class="line">    &quot;weight&quot;:140,</span><br><span class="line">    &quot;address&quot;:&#123;</span><br><span class="line">            &quot;country&quot;:&quot;中国&quot;,</span><br><span class="line">            &quot;province&quot;: &quot;河南&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">    &quot;courses&quot;:[&#123;</span><br><span class="line">               &quot;name&quot;:&quot;Chinese&quot;,</span><br><span class="line">               &quot;desc&quot;:&quot;语文课&quot;</span><br><span class="line">    &#125;,&#123;</span><br><span class="line">               &quot;name&quot;:&quot;Math&quot;,</span><br><span class="line">               &quot;desc&quot;:&quot;数学课&quot;</span><br><span class="line">    &#125;,&#123;</span><br><span class="line">               &quot;name&quot;:&quot;English&quot;,</span><br><span class="line">               &quot;desc&quot;:&quot;英语课&quot;</span><br><span class="line">    &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>具体的代码实现流程如下：<br>步骤1：创建NSObject的类目NSObject+ZSModel，用于实现字典转模型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">@interface NSObject (ZSModel)</span><br><span class="line">+ (instancetype)zs_modelWithDictionary:(NSDictionary *)dictionary;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">//ZSModel协议，协议方法可以返回一个字典，表明特殊字段的处理规则</span><br><span class="line">@protocol ZSModel&lt;NSObject&gt;</span><br><span class="line">@optional</span><br><span class="line">+ (nullable NSDictionary&lt;NSString *, id&gt; *)modelContainerPropertyGenericClass;</span><br><span class="line">@end;</span><br><span class="line"></span><br><span class="line">#import &quot;NSObject+ZSModel.h&quot;</span><br><span class="line">#import &lt;objc/runtime.h&gt;</span><br><span class="line">@implementation NSObject (ZSModel)</span><br><span class="line">+ (instancetype)zs_modelWithDictionary:(NSDictionary *)dictionary&#123;</span><br><span class="line">    </span><br><span class="line">    //创建当前模型对象</span><br><span class="line">    id object = [[self alloc] init];</span><br><span class="line">    //1.获取当前对象的成员变量列表</span><br><span class="line">    unsigned int count = 0;</span><br><span class="line">    Ivar *ivarList = class_copyIvarList([self class], &amp;count);</span><br><span class="line">    </span><br><span class="line">    //2.遍历ivarList中所有成员变量，以其属性名为key，在字典中查找Value</span><br><span class="line">    for (int i= 0; i&lt;count; i++) &#123;</span><br><span class="line">        //2.1获取成员属性</span><br><span class="line">        Ivar ivar = ivarList[i];</span><br><span class="line">        NSString *ivarName = [NSString stringWithUTF8String:ivar_getName(ivar)] ;</span><br><span class="line">        </span><br><span class="line">        //2.2截取成员变量名：去掉成员变量前面的&quot;_&quot;号</span><br><span class="line">        NSString *propertyName = [ivarName substringFromIndex:1];</span><br><span class="line">        </span><br><span class="line">        //2.3以属性名为key，在字典中查找value</span><br><span class="line">        id value = dictionary[propertyName];</span><br><span class="line">        </span><br><span class="line">        //3.获取成员变量类型, 因为ivar_getTypeEncoding获取的类型是&quot;@\&quot;NSString\&quot;&quot;的形式</span><br><span class="line">        //所以我们要做以下的替换</span><br><span class="line">        NSString *ivarType = [NSString stringWithUTF8String:ivar_getTypeEncoding(ivar)];// 替换:</span><br><span class="line">        //3.1去除转义字符：@\&quot;name\&quot; -&gt; @&quot;name&quot;</span><br><span class="line">        ivarType = [ivarType stringByReplacingOccurrencesOfString:@&quot;\&quot;&quot; withString:@&quot;&quot;];</span><br><span class="line">        //3.2去除@符号</span><br><span class="line">        ivarType = [ivarType stringByReplacingOccurrencesOfString:@&quot;@&quot; withString:@&quot;&quot;];</span><br><span class="line">        </span><br><span class="line">        //4.对特殊成员变量进行处理：</span><br><span class="line">        //判断当前类是否实现了协议方法，获取协议方法中规定的特殊变量的处理方式</span><br><span class="line">        NSDictionary *perpertyTypeDic;</span><br><span class="line">        if([self respondsToSelector:@selector(modelContainerPropertyGenericClass)])&#123;</span><br><span class="line">            perpertyTypeDic = [self performSelector:@selector(modelContainerPropertyGenericClass) withObject:nil];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        //4.1处理：字典的key与模型属性不匹配的问题，如id-&gt;uid</span><br><span class="line">        id anotherName = perpertyTypeDic[propertyName];</span><br><span class="line">        if(anotherName &amp;&amp; [anotherName isKindOfClass:[NSString class]])&#123;</span><br><span class="line">            value =  dictionary[anotherName];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        //4.2.处理：模型嵌套模型</span><br><span class="line">        if ([value isKindOfClass:[NSDictionary class]] &amp;&amp; ![ivarType hasPrefix:@&quot;NS&quot;]) &#123;</span><br><span class="line">            Class modelClass = NSClassFromString(ivarType);</span><br><span class="line">            if (modelClass != nil) &#123;</span><br><span class="line">                //将被嵌套字典数据也转化成Model</span><br><span class="line">                value = [modelClass zs_modelWithDictionary:value];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        //4.3处理：模型嵌套模型数组</span><br><span class="line">        //判断当前Vaue是一个数组，而且存在协议方法返回了perpertyTypeDic</span><br><span class="line">        if ([value isKindOfClass:[NSArray class]] &amp;&amp; perpertyTypeDic) &#123;</span><br><span class="line">            Class itemModelClass = perpertyTypeDic[propertyName];</span><br><span class="line">            //封装数组：将每一个子数据转化为Model</span><br><span class="line">            NSMutableArray *itemArray = @[].mutableCopy;</span><br><span class="line">            for (NSDictionary *itemDic  in value) &#123;</span><br><span class="line">                id model = [itemModelClass zs_modelWithDictionary:itemDic];</span><br><span class="line">                [itemArray addObject:model];</span><br><span class="line">            &#125;</span><br><span class="line">            value = itemArray;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        //5.使用KVC方法将Vlue更新到object中</span><br><span class="line">        if (value != nil) &#123;</span><br><span class="line">            [object setValue:value forKey:propertyName];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    free(ivarList); //释放C指针</span><br><span class="line">    return object;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h1 id="8、下面的代码输出什么？"><a href="#8、下面的代码输出什么？" class="headerlink" title="8、下面的代码输出什么？"></a>8、下面的代码输出什么？</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@implementation Son : Father</span><br><span class="line">- (id)init &#123;</span><br><span class="line">    self = [super init];</span><br><span class="line">    if (self) &#123;</span><br><span class="line">        NSLog(@&quot;%@&quot;, NSStringFromClass([self class]));</span><br><span class="line">        NSLog(@&quot;%@&quot;, NSStringFromClass([super class]));</span><br><span class="line">    &#125;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>结果是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">两个都打印  Son</span><br></pre></td></tr></table></figure>
+<p>[self class]  打印Son比较好理解<br>为什么 [super class] 也打印Son呢？<br>原因是： [super class]  会被编译成 <code>id objc_msgSendSuper ( struct objc_super *super, SEL op, ... );</code>,</p>
+<p>objc_super 的结构是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">struct objc_super &#123;</span><br><span class="line">   id receiver; //消息的实际接收者</span><br><span class="line">   Class super_class; //指向当前类的父类</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>当我们使用super来接收消息时，编译器会生成一个objc_super结构体。结构体的receiver就是当前类的对象，与self相同；superClass指向当前类的父类。</p>
+<p>而 objc_msgSendSuper 函数实际的操作是：从objc_super结构体指向的superClass的方法列表开始查找selector，找到后以objc-&gt;receiver去调用这个selector，最后的操作流程就是如下方式了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objc_msgSend(objc_super-&gt;receiver, @selector(xxx))</span><br></pre></td></tr></table></figure></p>
+<p>那看起来不就和直接调  <code>objc_msgSend(receiver, @selector(xxx))</code> 一样了吗？<br>区别是 直接调用是从当前类的方法列表开始查找selector，而objc_msgSendSuper是从父类开始查找</p>
+<p>#9、下面代码输出啥？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BOOL res1 = [(id)[NSObject class] isKindOfClass:[NSObject class]];</span><br><span class="line">BOOL res2 = [(id)[NSObject class] isMemberOfClass:[NSObject class]];</span><br><span class="line">BOOL res3 = [(id)[Sark class] isKindOfClass:[Sark class]];</span><br><span class="line">BOOL res4 = [(id)[Sark class] isMemberOfClass:[Sark class]];</span><br></pre></td></tr></table></figure></p>
+<p>第一个是YES ，其他都是NO</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)isKindOfClass:(Class)cls &#123;</span><br><span class="line">    for (Class tcls = [self class]; tcls; tcls = tcls-&gt;superclass) &#123;</span><br><span class="line">        if (tcls == cls) return YES;</span><br><span class="line">    &#125;</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)isMemberOfClass:(Class)cls &#123;</span><br><span class="line">    return [self class] == cls;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">+ (Class)class&#123;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line">- (Class)class&#123;</span><br><span class="line">    return object_getClass(self);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">而 object_getClass() 方法实际上是返回对象的isa 指针所指的对象：</span><br><span class="line"></span><br><span class="line">Class object_getClass(id obj)&#123;</span><br><span class="line">    if (obj) return obj-&gt;getIsa();</span><br><span class="line">    else return Nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="media/15532226954029.jpg" alt></p>
+<p><img src="media/15532228039364.jpg" alt></p>
+<p>第一个：<br>[NSObject class] 返回的是  NSObject 类对象 （ NSObject Class）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)isKindOfClass:(Class)cls &#123;</span><br><span class="line">    for (Class tcls = [self class]; tcls; tcls = tcls-&gt;superclass) &#123;</span><br><span class="line">        if (tcls == cls) return YES;</span><br><span class="line">    &#125;</span><br><span class="line">    return NO;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行 isKindOfClass 比较的时候，确定两个东西  reciver  和  参数 cls<br>reciver :  [NSObject class]  NSObject 类对象<br>cls : 也是  [NSObject class]  NSObject 类对象</p>
+<p>然后开始执行 isKindOfClass 方法进行比较 ：<br>第一次循环：<br>tcls = [self class] ; 因为self 是 NSObject 类对象，所以 [self class] 就是 NSObject类对象的isa指针所指的东西，就是 NSObject 的元类。<br>cls 是 NSObject 的类对象<br>所以不相等</p>
+<p>第二次循环：<br>tcls = tcls-&gt;superclass tcls 当前是NSObject的元类， 元类的superclass 是NSObject的类对象<br>cls 是NSObject的类对象<br>所以想等。</p>
+<p>第二个：<br>reciver :  [NSObject class]  NSObject 类对象<br>cls : 也是  [NSObject class]  NSObject 类对象<br>然后开始执行 isMemberOfClass 方法进行比较 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)isMemberOfClass:(Class)cls &#123;</span><br><span class="line">    return [self class] == cls;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>self 是 NSObject的类对象，  [self class] 是NSObject的元类<br>cls 是NSObject的类对象<br>所以不相等</p>
+<p>第三个：<br>reciver :  [Sark class]  Sark 类对象<br>cls : 也是  [Sark class]  Sark 类对象</p>
+<p>然后开始执行 isKindOfClass 方法进行比较 ：<br>第一次循环：<br>tcls = [self class] ; 因为self 是 Sark 类对象，所以 [self class] 就是 Sark类对象的isa指针所指的东西，就是 Sark 的元类。<br>cls 是 Sark 的类对象<br>所以不相等</p>
+<p>第二次循环：<br>tcls = tcls-&gt;superclass tcls 当前是Sark的元类， 元类的 superclass 是NSObject的元类<br>cls 是 Sark 的类对象<br>所以不相等</p>
+<p>第三次循环：<br>tcls = tcls-&gt;superclass tcls 当前是NSObject的元类， 元类的superclass 是NSObject 类对象<br>cls 是 Sark 的类对象<br>所以不相等</p>
+<p>第四次循环：<br>tcls = tcls-&gt;superclass tcls 当前是 NSObject 类对象， 类对象的superclass 是nil<br>cls 是 Sark 的类对象<br>跳出循环<br>所以不相等</p>
+<p>第四个：<br>reciver :  [Sark class]  Sark 类对象<br>cls : 也是  [Sark class]  Sark 类对象<br>然后开始执行 isMemberOfClass 方法进行比较 ：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)isMemberOfClass:(Class)cls &#123;</span><br><span class="line">    return [self class] == cls;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>self 是 Sark的类对象，  [self class] 是Sark的元类<br>cls 是Sark的类对象<br>所以不相等</p>
+<p>#10、下面的代码会？Compile Error / Runtime Crash / NSLog…?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@interface NSObject (Sark)</span><br><span class="line">+ (void)foo;</span><br><span class="line">@end</span><br><span class="line">@implementation NSObject (Sark)</span><br><span class="line">- (void)foo &#123;</span><br><span class="line">    NSLog(@&quot;IMP: -[NSObject (Sark) foo]&quot;);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line">// 测试代码</span><br><span class="line">[NSObject foo];</span><br><span class="line">[[NSObject new] foo];</span><br></pre></td></tr></table></figure>
+<p>都会正常打印日志<br>[NSObject foo]; 因为类方法是保存在该类的元类中的，所以调用foo类方法，会去 NSObject的元类中区查找，没找到，那去元类的父类中查找，找到了。<br>[[NSObject new] foo]; 调用实例方法，直接查找对象方法，找到了。</p>
+<p>#11、其他</p>
+<p>对于Model，打印一个对象的时候，通常打印的都是地址，可以重写description方法，自动获取成员来打印。</p>
+<h1 id="12、参考资料："><a href="#12、参考资料：" class="headerlink" title="12、参考资料："></a>12、参考资料：</h1><p>1、<a href="https://www.jianshu.com/p/d4b55dae9a0d" target="_blank" rel="noopener">Runtime-iOS运行时基础篇</a><br>2、<a href="https://www.jianshu.com/p/fe131f8757ba" target="_blank" rel="noopener">Runtime-iOS运行时应用篇</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/13/ios-runloop/" rel="next" title="RunLoop">
+                <i class="fa fa-chevron-left"></i> RunLoop
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/13/ios-property/" rel="prev" title="property">
+                property <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2019/07/13/ios-runtime/" data-title="Runtime" data-content data-url="http://yinghuochong.github.io/2019/07/13/ios-runtime/">
+  <div class="ds-share-inline">
+    <ul class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2019/07/13/ios-runtime/" data-title="Runtime" data-url="http://yinghuochong.github.io/2019/07/13/ios-runtime/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/2938786?v=3&u=bfbfd2920ad7fcf69e16db28c68d58ad84e39cfd&s=400" alt="萤火虫">
+            
+              <p class="site-author-name" itemprop="name">萤火虫</p>
+              <p class="site-description motion-element" itemprop="description">只想安静地写点东西</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yinghuochong" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.douban.com/people/142593473/" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.wzblog.cn" title="吴征的笔记本" target="_blank">吴征的笔记本</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、Runtime是什么？"><span class="nav-number">1.</span> <span class="nav-text">1、Runtime是什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、-receiver-message-背后到底发生了什么？"><span class="nav-number">2.</span> <span class="nav-text">2、[receiver message] 背后到底发生了什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5、还有什么Runtime提供的方法？"><span class="nav-number">3.</span> <span class="nav-text">5、还有什么Runtime提供的方法？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6、在类方法中self是谁？"><span class="nav-number">4.</span> <span class="nav-text">6、在类方法中self是谁？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7、-Runtime能用来干啥"><span class="nav-number">5.</span> <span class="nav-text">7、 Runtime能用来干啥?</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8、下面的代码输出什么？"><span class="nav-number">6.</span> <span class="nav-text">8、下面的代码输出什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#12、参考资料："><span class="nav-number">7.</span> <span class="nav-text">12、参考资料：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">萤火虫</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"imhuazai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

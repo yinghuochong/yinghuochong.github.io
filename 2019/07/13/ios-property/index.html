@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、@property 后面可以有哪些修饰符？分为原子性、存取方法、内存管理、重写方法四组： 1、nonatomic / atomic(默认)2、readonly / readwrite(默认)3、retain / copy / strong /weak / assign / unsafe_unretained4、getter和setter对存取方法重命名5、nonull / nullable">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="property">
+<meta property="og:url" content="http://yinghuochong.github.io/2019/07/13/ios-property/index.html">
+<meta property="og:site_name" content="萤火虫">
+<meta property="og:description" content="1、@property 后面可以有哪些修饰符？分为原子性、存取方法、内存管理、重写方法四组： 1、nonatomic / atomic(默认)2、readonly / readwrite(默认)3、retain / copy / strong /weak / assign / unsafe_unretained4、getter和setter对存取方法重命名5、nonull / nullable">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/ios-property/media/15541197894094.jpg">
+<meta property="og:updated_time" content="2019-07-22T02:46:46.067Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="property">
+<meta name="twitter:description" content="1、@property 后面可以有哪些修饰符？分为原子性、存取方法、内存管理、重写方法四组： 1、nonatomic / atomic(默认)2、readonly / readwrite(默认)3、retain / copy / strong /weak / assign / unsafe_unretained4、getter和setter对存取方法重命名5、nonull / nullable">
+<meta name="twitter:image" content="http://yinghuochong.github.io/2019/07/13/ios-property/media/15541197894094.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yinghuochong.github.io/2019/07/13/ios-property/">
+
+
+
+
+
+  <title>property | 萤火虫</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f54dcdf35994e9f2356bfc17a31dfd44";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">萤火虫</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不是bug</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yinghuochong.github.io/2019/07/13/ios-property/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="萤火虫">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/2938786?v=3&u=bfbfd2920ad7fcf69e16db28c68d58ad84e39cfd&s=400">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="萤火虫">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">property</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-13T16:34:21+08:00">
+                2019-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/13/ios-property/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/13/ios-property/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1、-property-后面可以有哪些修饰符？"><a href="#1、-property-后面可以有哪些修饰符？" class="headerlink" title="1、@property 后面可以有哪些修饰符？"></a>1、@property 后面可以有哪些修饰符？</h1><p>分为原子性、存取方法、内存管理、重写方法四组：</p>
+<p>1、nonatomic / atomic(默认)<br>2、readonly / readwrite(默认)<br>3、retain / copy / strong /weak / assign / unsafe_unretained<br>4、getter和setter对存取方法重命名<br>5、nonull / nullable</p>
+<a id="more"></a>
+<p>详细解释：<br>1、atomic/nonatomic<br>指定合成存取方法是否为原子操作，可以理解为是否线程安全。可以发现几乎所有代码的属性设置都会使用nonatomic，这样能够提高访问性能，在iOS中使用锁机制的开销较大，会损耗性能。</p>
+<p>2、readwrite/readonly</p>
+<p>readwrite是编译器的默认选项，表示自动生成getter和setter，如果需要getter和setter不写即可。<br>readonly表示只合成getter而不合成setter。</p>
+<p>3、assign<br>assign表示对属性只进行简单的赋值操作，不更改所赋的新值的引用计数，也不改变旧值的引用计数，常用于标量类型，如NSInteger，NSUInteger，CGFloat，NSTimeInterval等。</p>
+<p>assign也可以修饰对象如NSString等类型对象，上面说过使用assign修饰不会更改所赋的新值的引用计数，也不改变旧值的引用计数，如果当所赋的新值引用计数为0对象被销毁时属性并不知道，编译器不会将该属性置为nil，指针仍旧指向之前被销毁的内存，这时访问该属性会产生野指针错误并崩溃，因此使用assign修饰的类型一定要为标量类型。 非常危险。</p>
+<p>4、weak<br>weak表示对所赋的值对象持有弱引用表示一种“非拥有关系”(nonowning relationship)，weak修饰的时候同样不会增加所赋的新值的引用计数，也不减少旧值的引用计数，但当该值被销毁时，weak修饰的属性会被自动赋值为nil，这样就可以避免野指针错误。<br>weak常用在修饰delegate等防止循环引用的场景。</p>
+<p>5、unsafe_unretained<br>使用unsafe_unretained修饰时效果与assign相同，不会增加引用计数，当所赋的值被销毁时不会被置为nil可能会发生野指针错误。unsafe_unretained与assign的区别在于，<strong>unsafe_unretained只能修饰对象，不能修饰标量类型，而assign两者均可修饰。</strong></p>
+<p>在使用中它的用处主要有下面几点：</p>
+<blockquote>
+<p>兼容性考虑。iOS4 以及之前还没有引入 weak，这种情况想表达弱引用的语义只能使用 unsafe_unretained。这种情况现在已经很少见了。</p>
+</blockquote>
+<blockquote>
+<p>性能考虑。使用 weak 对性能有一些影响，因此对性能要求高的地方可以考虑使用 unsafe_unretained 替换 weak。一个例子是 YYModel 的实现，为了追求更高的性能，其中大量使用 unsafe_unretained 作为变量标识符。</p>
+</blockquote>
+<p>6、strong<br>strong表示属性对所赋的值持有强引用表示一种“拥有关系”(owning relationship)，会先保留新值即增加新值的引用计数，然后再释放旧值即减少旧值的引用计数。只能修饰对象。如果对一些对象需要保持强引用则使用strong。</p>
+<p>7、copy<br>copy修饰的属性会在内存里拷贝一份对象，两个指针指向不同的内存地址。<br>一般用来修饰有对应可变类型子类的对象。<br>如：NSString/NSMutableString,NSArray/NSMutableArray,NSDictionary/NSMutableDictionary等。<br>为确保这些不可变对象因为可变子类对象影响，需要copy一份备份，如果不使用copy修饰，使用strong或assign等修饰则会因为多态导致属性值被修改。<br>copy还被用来修饰block。</p>
+<p>对于可变对象类型，如NSMutableString、NSMutableArray等则不可以使用copy修饰，因为Foundation框架提供的这些类都实现了NSCopying协议，使用copy方法返回的都是不可变对象，如果使用copy修饰符在对可变对象赋值时则会获取一个不可变对象，接下来如果对这个对象进行可变对象的操作则会产生异常，因为OC没有提供mutableCopy修饰符，对于可变对象使用strong修饰符即可</p>
+<p>8、retain<br>在ARC环境下使用较少，在MRC下使用效果与strong一致。</p>
+<h1 id="2、使用-property-相比-直接使用变量有什么好处？"><a href="#2、使用-property-相比-直接使用变量有什么好处？" class="headerlink" title="2、使用 property 相比 直接使用变量有什么好处？"></a>2、使用 property 相比 直接使用变量有什么好处？</h1><p>1、自动生成 getter 和 setter方法。当声明一个属性(property)的时候编译器默认情况下会自动生成相关的getter和setter方法<br>2、这些方法的声明的更规范，更容易看出用处<br>3、能够传递额外的行为信息 ，上面列出的各种修饰符，可以控制额外的行为</p>
+<h1 id="3、当给一个用copy修饰的NSString-赋值时，会在内存中拷贝一份吗？"><a href="#3、当给一个用copy修饰的NSString-赋值时，会在内存中拷贝一份吗？" class="headerlink" title="3、当给一个用copy修饰的NSString 赋值时，会在内存中拷贝一份吗？"></a>3、当给一个用copy修饰的NSString 赋值时，会在内存中拷贝一份吗？</h1><p>答案：不一定会，看赋值时否是可变类型<br>原因：有时候我们需要copy一个对象，或是mutableCopy一个对象，这时需要遵守NSCopying和NSMutableCopying协议，来实现copyWithZone:和mutableCopyWithZone:两个方法，而不是重写copy和mutableCopy两个方法。<br>Foundation框架中的很多数据类型已经帮我们实现了上述两个方法，因此我们可以使用copy方法和mutableCopy方法来复制一个对象，两者的区别在于copy的返回值仍未不可变对象，mutableCopy的返回值为可变对象。</p>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>copy</th>
+<th>mutableCopy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NS*</td>
+<td>浅拷贝，只拷贝指针，地址相同</td>
+<td>单层深拷贝，拷贝内容，地址不同</td>
+</tr>
+<tr>
+<td>NSMutable*</td>
+<td>单层深拷贝，拷贝内容，地址不同</td>
+<td>单层深拷贝，拷贝内容，地址不同</td>
+</tr>
+</tbody>
+</table>
+<p>由上述表格可以看出，对于不可变类型，使用copy方法时是浅拷贝，只拷贝指针，因为内容是不会变化的。使用mutableCopy时由于返回可变对象因此需要一份拷贝，供其他对象使用。对于可变类型，不管是copy还是mutableCopy均会进行深拷贝，所指向指针不同。</p>
+<p>所以，在修饰NSString这样的不可变对象的时候使用copy修饰，但其实当给对象赋一个NSString时仍旧只复制了指针而不是拷贝内容。</p>
+<p>#3、为什么block要用copy来修饰？</p>
+<p>在MRC内存管理时代，block内存默认是是分配在栈上的（不考虑全局block的情况），可能随时被回收掉。当方法执行完之后，就会被回收掉。指向他的指针也会变成野指针。<br>如果想在超出block定义时的生命周期范围之外使用，那么需要执行block的copy方法将其复制到堆上。<br>所以在对block变量赋值的时候，需要把block通过copy拷贝到堆上，然后一直强引用着。<br>在MRC下对block类型的成员属性修饰最好用copy，而不要用retain，由于使用retain修饰只会改变引用计数而不会执行copy方法将block复制到堆上。此外block是一个对象就更不可能用assign修饰了。</p>
+<p>在ARC环境下，只要将block赋值就会自动拷贝到堆上。那么ARC环境下什么情况block会被copy到堆上呢？<br>1.执行copy方法。<br>2.作为方法返回值。<br>3.将Block赋值给非weak修饰的变量<br>4.作为UsingBlock或者GCD的方法入参时。(暂无法验证)<br>所以：一般来说我们使用block都是会有赋值操作的，由于有上述条件的存在，所以基本上不会遇到在栈上的block的情况。所以在ARC环境下，block类型的成员属性使用strong或copy修饰其实都可以，但是为了延续MRC的习惯，另外避免真的出现一些奇怪问题的情况，通常还是使用copy修饰。</p>
+<h1 id="3、常见使用场景"><a href="#3、常见使用场景" class="headerlink" title="3、常见使用场景"></a>3、常见使用场景</h1><p>1、懒加载的实现<br>在很多情况下很常用，比如:创建一个比较大的而又不一定会使用的对象 ，可以再get方法中去创建。</p>
+<h1 id="4、-synthesize和-dynamic分别有什么作用？"><a href="#4、-synthesize和-dynamic分别有什么作用？" class="headerlink" title="4、@synthesize和@dynamic分别有什么作用？"></a>4、@synthesize和@dynamic分别有什么作用？</h1><p>1、@property有两个对应的词，一个是 @synthesize，一个是 @dynamic。如果 @synthesize和 @dynamic都没写，那么默认的就是@syntheszie var = _var;<br>2、@synthesize 的语义是如果你没有手动实现 setter 方法和 getter 方法，那么编译器会自动为你加上这两个方法。<br>3、@dynamic 告诉编译器：属性的 setter 与 getter 方法由用户自己实现，不自动生成。（当然对于 readonly 的属性只需提供 getter 即可）。假如一个属性被声明为 @dynamic var，然后你没有提供 @setter方法和 @getter 方法，编译的时候没问题，但是当程序运行到 instance.var = someVar，由于缺 setter 方法会导致程序崩溃；或者当运行到 someVar = var 时，由于缺 getter 方法同样会导致崩溃。编译时没问题，运行时才执行相应的方法，这就是所谓的动态绑定。</p>
+<h1 id="5、ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？"><a href="#5、ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？" class="headerlink" title="5、ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？"></a>5、ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？</h1><p>1、对应基本数据类型默认关键字是<br>atomic,readwrite,assign </p>
+<ol start="2">
+<li>对于普通的 Objective-C 对象<br>atomic,readwrite,strong</li>
+</ol>
+<h1 id="6、在有了自动合成属性实例变量之后，-synthesize还有哪些使用场景？"><a href="#6、在有了自动合成属性实例变量之后，-synthesize还有哪些使用场景？" class="headerlink" title="6、在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？"></a>6、在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？</h1><p>回答这个问题前，我们要搞清楚一个问题，什么情况下不会autosynthesis（自动合成）？</p>
+<p>1、同时重写了 setter 和 getter 时<br>2、重写了只读属性的 getter 时<br>3、使用了 @dynamic 时<br>4、在 @protocol 中定义的所有属性<br>5、在 category 中定义的所有属性<br>6、重载的属性</p>
+<p>当你在子类中重载了父类中的属性，你必须 使用 @synthesize 来手动合成ivar。</p>
+<p>除了后三条，对其他几个我们可以总结出一个规律：当你想手动管理 @property 的所有内容时，你就会尝试通过实现 @property 的所有“存取方法”（the accessor methods）或者使用 @dynamic 来达到这个目的，这时编译器就会认为你打算手动管理 @property，于是编译器就禁用了 autosynthesis（自动合成）。</p>
+<p>因为有了 autosynthesis（自动合成），大部分开发者已经习惯不去手动定义ivar，而是依赖于 autosynthesis（自动合成），但是一旦你需要使用ivar，而 autosynthesis（自动合成）又失效了，如果不去手动定义ivar，那么你就得借助 @synthesize 来手动合成 ivar。</p>
+<p>其实，@synthesize 语法还有一个应用场景，但是不太建议大家使用：</p>
+<p>可以在类的实现代码里通过 @synthesize 语法来指定实例变量的名字:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@implementation CYLPerson </span><br><span class="line">@synthesize firstName = _myFirstName; </span><br><span class="line">@synthesize lastName = _myLastName; </span><br><span class="line">@end</span><br><span class="line">``` </span><br><span class="line">上述语法会将生成的实例变量命名为 _myFirstName 与 _myLastName，而不再使用默认的名字。一般情况下无须修改默认的实例变量名，但是如果你不喜欢以下划线来命名实例变量，那么可以用这个办法将其改为自己想要的名字。笔者还是推荐使用默认的命名方案，因为如果所有人都坚持这套方案，那么写出来的代码大家都能看得懂。</span><br><span class="line"></span><br><span class="line">举例说明：应用场景：</span><br></pre></td></tr></table></figure></p>
+<p>//<br>// .m文件<br>// <a href="http://weibo.com/luohanchenyilong/" target="_blank" rel="noopener">http://weibo.com/luohanchenyilong/</a> (微博@iOS程序犭袁)<br>// <a href="https://github.com/ChenYilong" target="_blank" rel="noopener">https://github.com/ChenYilong</a><br>// 打开第14行和第17行中任意一行，就可编译成功</p>
+<p>@import Foundation;</p>
+<p>@interface CYLObject : NSObject<br>@property (nonatomic, copy) NSString *title;<br>@end</p>
+<p>@implementation CYLObject {<br>   //    NSString *_title;<br>}</p>
+<p>//@synthesize title = _title;</p>
+<ul>
+<li><p>(instancetype)init<br>{<br> self = [super init];<br> if (self) {</p>
+<pre><code>_title = @&quot;微博@iOS程序犭袁&quot;;
+</code></pre><p> }<br> return self;<br>}</p>
+</li>
+<li><p>(NSString *)title {<br> return _title;<br>}</p>
+</li>
+<li><p>(void)setTitle:(NSString *)title {<br> _title = [title copy];<br>}</p>
+</li>
+</ul>
+<p>@end<br><code>`</code></p>
+<p>结果编译器报错： enter image description here<br><img src="media/15541197894094.jpg" alt></p>
+<p>当你同时重写了 setter 和 getter 时，系统就不会生成 ivar（实例变量/成员变量）。这时候有两种选择：</p>
+<p>要么如第14行：手动创建 ivar<br>要么如第17行：使用@synthesize foo = _foo; ，关联 @property 与 ivar。</p>
+<h1 id="7、-能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？"><a href="#7、-能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？" class="headerlink" title="7、 能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？"></a>7、 能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？</h1><p>不能向编译后得到的类中增加实例变量；<br>能向运行时创建的类中添加实例变量；<br>解释下：</p>
+<p>因为编译后的类已经注册在 runtime 中，类结构体中的 objc_ivar_list 实例变量的链表 和 instance_size 实例变量的内存大小已经确定，同时runtime 会调用 class_setIvarLayout 或 class_setWeakIvarLayout 来处理 strong weak 引用。所以不能向存在的类中添加实例变量；</p>
+<p>运行时创建的类是可以添加实例变量，调用 class_addIvar 函数。但是得在调用 objc_allocateClassPair 之后，objc_registerClassPair 之前，原因同上。</p>
+<p>#参考资料<br><a href="https://www.jianshu.com/p/646ae400fe7b" target="_blank" rel="noopener">iOS @property探究(一) 基础详解</a><br><a href="https://www.jianshu.com/p/44d12884e24e" target="_blank" rel="noopener">iOS @property探究(二) 深入理解</a><br><a href="https://segmentfault.com/a/1190000013914701" target="_blank" rel="noopener">block的理解与研究</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/13/ios-runtime/" rel="next" title="Runtime">
+                <i class="fa fa-chevron-left"></i> Runtime
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/13/ios-memery/" rel="prev" title="memery manager">
+                memery manager <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2019/07/13/ios-property/" data-title="property" data-content data-url="http://yinghuochong.github.io/2019/07/13/ios-property/">
+  <div class="ds-share-inline">
+    <ul class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2019/07/13/ios-property/" data-title="property" data-url="http://yinghuochong.github.io/2019/07/13/ios-property/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/2938786?v=3&u=bfbfd2920ad7fcf69e16db28c68d58ad84e39cfd&s=400" alt="萤火虫">
+            
+              <p class="site-author-name" itemprop="name">萤火虫</p>
+              <p class="site-description motion-element" itemprop="description">只想安静地写点东西</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yinghuochong" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.douban.com/people/142593473/" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.wzblog.cn" title="吴征的笔记本" target="_blank">吴征的笔记本</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、-property-后面可以有哪些修饰符？"><span class="nav-number">1.</span> <span class="nav-text">1、@property 后面可以有哪些修饰符？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、使用-property-相比-直接使用变量有什么好处？"><span class="nav-number">2.</span> <span class="nav-text">2、使用 property 相比 直接使用变量有什么好处？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、当给一个用copy修饰的NSString-赋值时，会在内存中拷贝一份吗？"><span class="nav-number">3.</span> <span class="nav-text">3、当给一个用copy修饰的NSString 赋值时，会在内存中拷贝一份吗？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、常见使用场景"><span class="nav-number">4.</span> <span class="nav-text">3、常见使用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、-synthesize和-dynamic分别有什么作用？"><span class="nav-number">5.</span> <span class="nav-text">4、@synthesize和@dynamic分别有什么作用？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5、ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？"><span class="nav-number">6.</span> <span class="nav-text">5、ARC下，不显式指定任何属性关键字时，默认的关键字都有哪些？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6、在有了自动合成属性实例变量之后，-synthesize还有哪些使用场景？"><span class="nav-number">7.</span> <span class="nav-text">6、在有了自动合成属性实例变量之后，@synthesize还有哪些使用场景？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7、-能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？"><span class="nav-number">8.</span> <span class="nav-text">7、 能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">萤火虫</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"imhuazai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

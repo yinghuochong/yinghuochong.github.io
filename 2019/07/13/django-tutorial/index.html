@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="（一）Django 环境搭建0、介绍Python3：Python开发环境，与Python2不兼容 pip3：Python3的包和模块管理工具，类似iOS的Cocoapods管理工具 Django：一个基于Python的Web框架，是Python3的一个开发包，我们目前使用1.8版本 1、Python2和python3在Mac上的共存Mac上自带的Python路径是：/System/Library/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django Tutorial">
+<meta property="og:url" content="http://yinghuochong.github.io/2019/07/13/django-tutorial/index.html">
+<meta property="og:site_name" content="萤火虫">
+<meta property="og:description" content="（一）Django 环境搭建0、介绍Python3：Python开发环境，与Python2不兼容 pip3：Python3的包和模块管理工具，类似iOS的Cocoapods管理工具 Django：一个基于Python的Web框架，是Python3的一个开发包，我们目前使用1.8版本 1、Python2和python3在Mac上的共存Mac上自带的Python路径是：/System/Library/">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/django-tutorial/media/15543771256456.jpg">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/django-tutorial/media/15323321564926.jpg">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/django-tutorial/media/15323332179240.jpg">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/django-tutorial/media/15323333157093.jpg">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/django-tutorial/media/15323334241404.jpg">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/django-tutorial/media/15323334421146.jpg">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/django-tutorial/media/15323334742136.jpg">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/django-tutorial/media/15323357270068.jpg">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/django-tutorial/media/15323378816052.jpg">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/django-tutorial/media/15323385388856.jpg">
+<meta property="og:updated_time" content="2019-07-22T02:46:46.072Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django Tutorial">
+<meta name="twitter:description" content="（一）Django 环境搭建0、介绍Python3：Python开发环境，与Python2不兼容 pip3：Python3的包和模块管理工具，类似iOS的Cocoapods管理工具 Django：一个基于Python的Web框架，是Python3的一个开发包，我们目前使用1.8版本 1、Python2和python3在Mac上的共存Mac上自带的Python路径是：/System/Library/">
+<meta name="twitter:image" content="http://yinghuochong.github.io/2019/07/13/django-tutorial/media/15543771256456.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yinghuochong.github.io/2019/07/13/django-tutorial/">
+
+
+
+
+
+  <title>Django Tutorial | 萤火虫</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f54dcdf35994e9f2356bfc17a31dfd44";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">萤火虫</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不是bug</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yinghuochong.github.io/2019/07/13/django-tutorial/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="萤火虫">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/2938786?v=3&u=bfbfd2920ad7fcf69e16db28c68d58ad84e39cfd&s=400">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="萤火虫">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Django Tutorial</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-13T23:09:20+08:00">
+                2019-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/13/django-tutorial/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/13/django-tutorial/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="（一）Django-环境搭建"><a href="#（一）Django-环境搭建" class="headerlink" title="（一）Django 环境搭建"></a>（一）Django 环境搭建</h1><h2 id="0、介绍"><a href="#0、介绍" class="headerlink" title="0、介绍"></a>0、介绍</h2><p>Python3：Python开发环境，与Python2不兼容</p>
+<p>pip3：Python3的包和模块管理工具，类似iOS的Cocoapods管理工具</p>
+<p>Django：一个基于Python的Web框架，是Python3的一个开发包，我们目前使用1.8版本</p>
+<h2 id="1、Python2和python3在Mac上的共存"><a href="#1、Python2和python3在Mac上的共存" class="headerlink" title="1、Python2和python3在Mac上的共存"></a>1、Python2和python3在Mac上的共存</h2><p>Mac上自带的Python路径是：<code>/System/Library/Framwork/Python.Framework/versions/</code><br>自带的版本是2.7版本的，然后在/usr/bin里面创建了相应的快捷命令：<br><code>python</code><br><code>pythonw</code><br><code>python-config</code><br><code>pydoc</code><br>等,xcode的正常运行是需要这一套环境的，所以不要把这一套环境破坏，另外安装python3.4<br><a id="more"></a></p>
+<h2 id="2、python3的安装"><a href="#2、python3的安装" class="headerlink" title="2、python3的安装"></a>2、python3的安装</h2><p>如果已经正确安装直接跳过这个步骤</p>
+<p>###方法一：<br>使用brew安装：</p>
+<p><code>brew install python3</code></p>
+<p>这种方式会直接安装好python3和pip3</p>
+<h3 id="方法二："><a href="#方法二：" class="headerlink" title="方法二："></a>方法二：</h3><p>Python3安装包安装：</p>
+<p>下载python3.4的安装包dmg文件安装后，安装目录在/Library/Framework/Python.framework/versions下，只安装一个3.4环境，它会默认在~/.bash_profile中添加bin目录，并且将pip3.4命令拷贝到/usr/local/bin下面，所以3.4和上面系统用到的python2版本基本上是可以独立运行的</p>
+<p>需要注意的是，在终端中运行python时候，如果要运行python3.4，那么就使用python3.4命令，为了避免混淆，最好将/usr/bin下面的python命令删除，保留python2.7命令。</p>
+<h2 id="3、检查python3和pip3是否正确安装"><a href="#3、检查python3和pip3是否正确安装" class="headerlink" title="3、检查python3和pip3是否正确安装"></a>3、检查python3和pip3是否正确安装</h2><p>检查python3环境：</p>
+<p><code>python3 --version</code></p>
+<p>检查pip3环境：</p>
+<p><code>pip3 --version</code></p>
+<p>如果都能正确提示版本号，则安装完成</p>
+<h2 id="4、虚拟环境"><a href="#4、虚拟环境" class="headerlink" title="4、虚拟环境"></a>4、虚拟环境</h2><p>如果我们要同时开发多个应用程序，那这些应用程序都会共用一个Python<br>每个应用可能需要各自拥有一套“独立”的Python运行环境。virtualenv就是用来为一个应用创建一套“隔离”的Python运行环境。<br>安装 virtualenv :<br><code>pip3 install virtualenv</code></p>
+<p>创建工程目录：<br><code>mkdir yourprojectdir</code></p>
+<p>创建虚拟环境：<br><code>virtualenv --no-site-packages venv</code><br>参数 –no-site-packages，表示 系统Python环境中的所有第三方包都不会复制过来</p>
+<p>进入虚拟环境：<br><code>source venv/bin/activate</code></p>
+<p>退出虚拟环境：<br><code>deactivate</code></p>
+<p>##5、安装Django:</p>
+<p>这里Django选择2.2版本,直接执行命令：</p>
+<p><code>pip3 install Django==2.2</code></p>
+<p>如果没有出错，依赖环境就安装完成了</p>
+<h2 id="6、参考资料："><a href="#6、参考资料：" class="headerlink" title="6、参考资料："></a>6、参考资料：</h2><p>1、<a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000" target="_blank" rel="noopener">廖雪峰Python3教程</a><br>2、<a href="https://docs.djangoproject.com/zh-hans/2.0/" target="_blank" rel="noopener">Django官方文档（需要注意版本）</a><br>3、<a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000/001432712108300322c61f256c74803b43bfd65c6f8d0d0000" target="_blank" rel="noopener">venev</a></p>
+<h1 id="（二）Django-Hello-World"><a href="#（二）Django-Hello-World" class="headerlink" title="（二）Django Hello World"></a>（二）Django Hello World</h1><h2 id="0、介绍："><a href="#0、介绍：" class="headerlink" title="0、介绍："></a>0、介绍：</h2><p>这部分我们主要是：</p>
+<p>创建一个Django项目，并实现一个helloworld的简单接口</p>
+<h2 id="1、创建名字为demoProject的项目："><a href="#1、创建名字为demoProject的项目：" class="headerlink" title="1、创建名字为demoProject的项目："></a>1、创建名字为demoProject的项目：</h2><p>在你想要保存项目代码的目录下执行下面的命令：</p>
+<p><code>django-admin.py startproject demoProject</code></p>
+<h2 id="2、创建名字为hello的应用："><a href="#2、创建名字为hello的应用：" class="headerlink" title="2、创建名字为hello的应用："></a>2、创建名字为hello的应用：</h2><p>项目和应用的关系  类似 iOS中 workspace 和 project的关系<br>一个Django项目中可以有多个应用</p>
+<p>执行以下命令创建名字为hello的应用：</p>
+<p><code>python3 manage.py startapp hello</code></p>
+<h2 id="3、项目目录结构介绍："><a href="#3、项目目录结构介绍：" class="headerlink" title="3、项目目录结构介绍："></a>3、项目目录结构介绍：</h2><p>此时项目的目录如下： </p>
+<p><code>demoProject/</code><br>     <code>manage.py</code>一种命令行工具，可让你以各种方式与该 Django 项目进行交互python manage.py help查看他的功能<br>     <code>demoProject/</code><br>          <code>__init__.py</code>:一个空文件，该文件将当前目录变成一个python开发包(模块)，一般不需要改动<br>          <code>setting.py</code>：项目的配置文件<br>          <code>urls.py</code>：URL设置，可看作网站的目录结构<br>          <code>wsgi.py</code>：http服务器配置，动态网关接口配置文件<br>     <code>hello/</code><br>          <code>__init__.py</code>     同上<br>          <code>admin.py</code> ：配置模型models在django原生后台的管理<br>          <code>migrations/</code>        用来做版本管理<br>               <code>__init__.py</code>   同上<br>          <code>models.py</code>：模型代码<br>          <code>tests.py</code>：单元测试代码<br>          <code>views.py</code>：逻辑处理代码<br>          <code>templates</code>  存放html模版文件</p>
+<h2 id="4、运行项目："><a href="#4、运行项目：" class="headerlink" title="4、运行项目："></a>4、运行项目：</h2><p><code>cd demoProject</code> 进入项目目录，执行下面的命令运行程序：</p>
+<p><code>python3 manage.py runserver</code></p>
+<p>命令行提示如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Performing system checks...</span><br><span class="line"></span><br><span class="line">System check identified no issues (0 silenced).</span><br><span class="line"></span><br><span class="line">You have unapplied migrations; your app may not work properly until they are applied.</span><br><span class="line">Run &apos;python manage.py migrate&apos; to apply them.</span><br><span class="line"></span><br><span class="line">July 23, 2018 - 07:36:17</span><br><span class="line">Django version 1.8, using settings &apos;demoProject.settings&apos;</span><br><span class="line">Starting development server at http://127.0.0.1:8000/</span><br><span class="line">Quit the server with CONTROL-C.</span><br></pre></td></tr></table></figure>
+<p>打开浏览器访问：<a href="http://127.0.0.1:8000" target="_blank" rel="noopener">http://127.0.0.1:8000</a></p>
+<p><img src="media/15543771256456.jpg" alt="15543771256456"></p>
+<p>如果提示上面的内容，说明我们的项目已经搭建好了</p>
+<p>按下 <code>control+c</code> 可以关掉程序</p>
+<h2 id="5、添加helloworld接口："><a href="#5、添加helloworld接口：" class="headerlink" title="5、添加helloworld接口："></a>5、添加helloworld接口：</h2><h3 id="5-1、配置app"><a href="#5-1、配置app" class="headerlink" title="5.1、配置app"></a>5.1、配置app</h3><p>修改demoProject/demoProject/settings.py文件<br>在里面添加hello app应用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = (</span><br><span class="line">    &apos;django.contrib.admin&apos;,</span><br><span class="line">    &apos;django.contrib.auth&apos;,</span><br><span class="line">    &apos;django.contrib.contenttypes&apos;,</span><br><span class="line">    &apos;django.contrib.sessions&apos;,</span><br><span class="line">    &apos;django.contrib.messages&apos;,</span><br><span class="line">    &apos;django.contrib.staticfiles&apos;,</span><br><span class="line">    &apos;hello’               #新增</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<h3 id="5-2、-编写返回hello的接口"><a href="#5-2、-编写返回hello的接口" class="headerlink" title="5.2、 编写返回hello的接口"></a>5.2、 编写返回hello的接口</h3><p>在 demoProject/hello/views.py 里新增如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from django.http import HttpResponse</span><br><span class="line"></span><br><span class="line">def sayHello(request):</span><br><span class="line">    return HttpResponse(u&quot;Hello world!&quot;)</span><br></pre></td></tr></table></figure>
+<p>这里实现了一个sayHello的函数<br>函数依赖了HttpResponse方法，所以需要从django.http模块中引入该方法</p>
+<h3 id="5-3、-添加路由"><a href="#5-3、-添加路由" class="headerlink" title="5.3、 添加路由"></a>5.3、 添加路由</h3><p>在 demoProject/demoProject/urls.py 里新增如下代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from django.contrib import admin</span><br><span class="line">from django.urls import path</span><br><span class="line">from hello import views as helloViews   #new</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(&apos;admin/&apos;, admin.site.urls),</span><br><span class="line">    path(&apos;hello&apos;, helloViews.sayHello),           #new</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>这里就是Django关键的路由模块配置了<br>url函数前半部分是模式匹配url地址函数，后面是调用的实现方法<br>这里的意思是当访问/hello时，调用hello模块的views里的sayHello方法来处理</p>
+<h2 id="6、测试hello-world"><a href="#6、测试hello-world" class="headerlink" title="6、测试hello world"></a>6、测试hello world</h2><p>再次执行下面的命令启动服务，如果当前正在运行，可以按Control+C关掉：</p>
+<p><code>python3 manage.py runserver</code></p>
+<p>在浏览器访问地址：</p>
+<p><code>http://127.0.0.1:8000/hello</code></p>
+<p>可以看到返回如下：</p>
+<p><img src="media/15323321564926.jpg" alt="15323321564926"></p>
+<p>至此一个简单的hello world接口就好了，可以自己试试写点其他接口</p>
+<h2 id="7、参考资料："><a href="#7、参考资料：" class="headerlink" title="7、参考资料："></a>7、参考资料：</h2><h1 id="（三）Django-简单小程序接口实现"><a href="#（三）Django-简单小程序接口实现" class="headerlink" title="（三）Django 简单小程序接口实现"></a>（三）Django 简单小程序接口实现</h1><h2 id="0-介绍："><a href="#0-介绍：" class="headerlink" title="0 介绍："></a>0 介绍：</h2><p>这部分我们在之前项目基础上实现两个简单的接口，具体如下：<br>1、小程序用户上传分数到服务端接口<br>2、小程序用户获取分数排行版接口</p>
+<h2 id="1、创建并配置小程序应用："><a href="#1、创建并配置小程序应用：" class="headerlink" title="1、创建并配置小程序应用："></a>1、创建并配置小程序应用：</h2><h3 id="1-1、-在helloworld项目中新建应用wechatGame："><a href="#1-1、-在helloworld项目中新建应用wechatGame：" class="headerlink" title="1.1、 在helloworld项目中新建应用wechatGame："></a>1.1、 在helloworld项目中新建应用wechatGame：</h3><p><code>python3 manage.py startapp wechatGame</code></p>
+<h3 id="1-2、将应用添加到项目配置"><a href="#1-2、将应用添加到项目配置" class="headerlink" title="1.2、将应用添加到项目配置:"></a>1.2、将应用添加到项目配置:</h3><p>修改项目配置文件 <code>demoProject/demoProject/settings.py</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS = (</span><br><span class="line">    &apos;django.contrib.admin&apos;,</span><br><span class="line">    &apos;django.contrib.auth&apos;,</span><br><span class="line">    &apos;django.contrib.contenttypes&apos;,</span><br><span class="line">    &apos;django.contrib.sessions&apos;,</span><br><span class="line">    &apos;django.contrib.messages&apos;,</span><br><span class="line">    &apos;django.contrib.staticfiles&apos;,</span><br><span class="line">    &apos;hello&apos;,</span><br><span class="line">    &apos;wechatGame&apos;        #new</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<h2 id="2、创建Player玩家模型"><a href="#2、创建Player玩家模型" class="headerlink" title="2、创建Player玩家模型"></a>2、创建Player玩家模型</h2><p>再应用的模型文件 <code>demoProject/wechatGame/models.py</code> 加入以下代码 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class Player(models.Model):</span><br><span class="line">    playerID = models.AutoField(primary_key=True)</span><br><span class="line">    nickName = models.CharField(max_length=50, default=&apos;&apos;)</span><br><span class="line">    score = models.IntegerField(default=0)</span><br><span class="line">    updateTime = models.DateTimeField(auto_now=True)</span><br><span class="line"></span><br><span class="line">    def __str__(self):</span><br><span class="line">        return self.nickName</span><br></pre></td></tr></table></figure>
+<p>这里创建了一个玩家的模型，包含用户昵称、用户分数、和分数更新时间字段<br>利用Django强大的ORM功能，后面可以直接在数据库中生成对应的数据表</p>
+<h2 id="3、实现两个接口逻辑"><a href="#3、实现两个接口逻辑" class="headerlink" title="3、实现两个接口逻辑"></a>3、实现两个接口逻辑</h2><p>打开<code>demoProject/wechatGame/views.py</code>文件进行修改：</p>
+<p>导入玩家模型：<br><code>from wechatGame.models import Player</code></p>
+<p>实现上传分数addScore和获取分数rank的接口,最终代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">from django.shortcuts import render</span><br><span class="line"></span><br><span class="line"># Create your views here.</span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">from wechatGame.models import Player</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line">def addScore(request):</span><br><span class="line">    #获取客户端参数</span><br><span class="line">    nickName = request.GET.get(&apos;nickName&apos;)</span><br><span class="line">    score = request.GET.get(&apos;score&apos;)</span><br><span class="line">    if not nickName or not score:</span><br><span class="line">        return HttpResponse(json.dumps(&#123;</span><br><span class="line">            &quot;status&quot;: 1,</span><br><span class="line">            &quot;errorMsg&quot;: &quot;param error&quot;</span><br><span class="line">        &#125;))</span><br><span class="line"></span><br><span class="line">    score = max(int(score),0)</span><br><span class="line">    #查看玩家是不是已经在数据库，如果在更新，否则创建玩家</span><br><span class="line">    isHave = True</span><br><span class="line">    try:</span><br><span class="line">        tmpData = Player.objects.get(nickName=nickName)</span><br><span class="line">    except Exception as err:</span><br><span class="line">        isHave = False</span><br><span class="line">    </span><br><span class="line">    if isHave:</span><br><span class="line">        player = Player.objects.get(nickName=nickName)</span><br><span class="line">        player.score = max(score,int(player.score))</span><br><span class="line">    else:</span><br><span class="line">        player = Player(nickName=nickName,score=score)</span><br><span class="line">    player.save()#保存到数据库</span><br><span class="line">    return HttpResponse(json.dumps(&#123;</span><br><span class="line">            &quot;status&quot;: 0,</span><br><span class="line">            &quot;errorMsg&quot;: &quot;&quot;</span><br><span class="line">        &#125;))</span><br><span class="line"></span><br><span class="line">def rank(request):</span><br><span class="line">        status = 0</span><br><span class="line">        errorMsg = &apos;&apos;</span><br><span class="line">        print(&quot;=========  开始从数据库获取数据 ===========&quot;)</span><br><span class="line">        players = Player.objects.all().order_by(&quot;-score&quot;)</span><br><span class="line">        playersDic = []</span><br><span class="line">        for player in players:</span><br><span class="line">            playersDic.append(&#123;&quot;nickName&quot;:player.nickName,&quot;score&quot;:player.score&#125;)</span><br><span class="line">        print(&quot;playersDic%s&quot;%(playersDic))</span><br><span class="line">        </span><br><span class="line">        return HttpResponse(json.dumps(&#123;</span><br><span class="line">            &quot;status&quot;: status,</span><br><span class="line">            &quot;errorMsg&quot;: errorMsg,</span><br><span class="line">            &quot;players&quot;: playersDic</span><br><span class="line">        &#125;))</span><br></pre></td></tr></table></figure>
+<h2 id="4、-在-urls-里配置路由"><a href="#4、-在-urls-里配置路由" class="headerlink" title="4、 在 urls 里配置路由"></a>4、 在 urls 里配置路由</h2><p>在 demoProject/demoProject/urls.py 里新增如下代码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from django.contrib import admin</span><br><span class="line">from django.urls import path</span><br><span class="line">from hello import views as helloViews </span><br><span class="line">from wechatGame import views as wechatViews            #new</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(&apos;admin/&apos;, admin.site.urls),</span><br><span class="line">    path(&apos;hello&apos;, helloViews.sayHello),</span><br><span class="line">    path(&apos;score&apos;,  wechatViews.addScore),#new    </span><br><span class="line">    path(&apos;rank&apos;,  wechatViews.rank),#new</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h2 id="5、将model应用到数据库"><a href="#5、将model应用到数据库" class="headerlink" title="5、将model应用到数据库"></a>5、将model应用到数据库</h2><p>因为我们新增了玩家的模型，所以在运行程序之前需要将模型结构同步到数据库</p>
+<p>根据对modes的改动，生成对应的数据库语句，但是这个改动还没有作用到数据库文件<br><code>python3 manger.py makemigrations</code></p>
+<p>将改动应用到数据库</p>
+<p><code>python3 manager.py migrate</code></p>
+<p>执行完这两个步骤会在sqlite数据库里生成一张和Player对应的数据表用来存储数据</p>
+<p>执行完之后可以看到项目目录下多了一个sqlite文件：</p>
+<p><img src="media/15323332179240.jpg" alt="15323332179240"></p>
+<p>打开sqlite可以看到具体表和表结构：</p>
+<p><img src="media/15323333157093.jpg" alt="15323333157093"></p>
+<h2 id="6、测试接口"><a href="#6、测试接口" class="headerlink" title="6、测试接口"></a>6、测试接口</h2><p>启动服务</p>
+<p><code>python3 manage.py runserver</code></p>
+<p>打开浏览器访问接口：</p>
+<p><code>http://127.0.0.1:8000/rank</code></p>
+<p><code>http://127.0.0.1:8000/score?nickName=hello&amp;score=120</code></p>
+<p>上传分数接口成功效果：</p>
+<p><img src="media/15323334241404.jpg" alt="15323334241404"></p>
+<p>排行榜接口返回效果：</p>
+<p><img src="media/15323334421146.jpg" alt="15323334421146"></p>
+<p>数据库里存储的数据：</p>
+<p><img src="media/15323334742136.jpg" alt="15323334742136"></p>
+<p>至此，我们的两个接口实现就完成了</p>
+<h2 id="7、参考资料：-1"><a href="#7、参考资料：-1" class="headerlink" title="7、参考资料："></a>7、参考资料：</h2><h1 id="（四）Django-管理后台"><a href="#（四）Django-管理后台" class="headerlink" title="（四）Django 管理后台"></a>（四）Django 管理后台</h1><h2 id="1、创建初始管理员密码"><a href="#1、创建初始管理员密码" class="headerlink" title="1、创建初始管理员密码:"></a>1、创建初始管理员密码:</h2><p><code>python3 manage.py createsuperuser</code></p>
+<h2 id="2、访问管理后台："><a href="#2、访问管理后台：" class="headerlink" title="2、访问管理后台："></a>2、访问管理后台：</h2><p><code>http://localhost:8000/admin/</code></p>
+<h1 id="（五）Django-简单的前端界面"><a href="#（五）Django-简单的前端界面" class="headerlink" title="（五）Django 简单的前端界面"></a>（五）Django 简单的前端界面</h1><p>##0、介绍<br>这部分主要用Django实现一个前端界面<br>1、让用户可以输入用户名和分数，上传到服务端<br>2、可以拉取当前排行榜列表</p>
+<h2 id="1、新建模板页面"><a href="#1、新建模板页面" class="headerlink" title="1、新建模板页面"></a>1、新建模板页面</h2><p>Django的模板语法可以实现 将python代码中的逻辑填充到html页面中，然后返回给浏览器</p>
+<p>在<code>demoProject/wechatGame</code>下新建templates目录<br>并在目录下新建 game.html文件</p>
+<p>我们先在html文件里写点简单代码测试一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    hello world, i&apos;m html!  </span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="2、增加访问游戏页面接口"><a href="#2、增加访问游戏页面接口" class="headerlink" title="2、增加访问游戏页面接口"></a>2、增加访问游戏页面接口</h2><p>在 <code>demoProject/wechatGame/views.py</code> 里添加函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def gamePage(request):</span><br><span class="line">    return render(request, &apos;game.html&apos;)</span><br></pre></td></tr></table></figure>
+<p>在 <code>demoProject/demoProject/urls.py</code> 里添加路由：</p>
+<p><code>path(&#39;game&#39;, wechatViews.gamePage)</code></p>
+<p>启动服务：</p>
+<p><code>python3 manage.py runserver</code></p>
+<p>打开浏览器测试：</p>
+<p><code>http://127.0.0.1:8000/game</code></p>
+<p><img src="media/15323357270068.jpg" alt="15323357270068"></p>
+<p>出现以上页面，说明我们的页面可以使用了</p>
+<h2 id="3、编写游戏前端页面"><a href="#3、编写游戏前端页面" class="headerlink" title="3、编写游戏前端页面"></a>3、编写游戏前端页面</h2><p>主要是实现随机生成游戏结果和上传分数的逻辑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;我是小程序的标题&lt;/title&gt;</span><br><span class="line">    &lt;script src=&quot;https://code.jquery.com/jquery-3.1.1.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;input type=&quot;text&quot; value=&quot;&quot; placeholder=&quot;请输入你的大名&quot; id=&quot;name_input&quot;&gt;</span><br><span class="line">    &lt;br/&gt;</span><br><span class="line">    &lt;br/&gt;</span><br><span class="line">    &lt;label id=&quot;score_tip_label&quot;&gt;你的分数：&lt;/label&gt;</span><br><span class="line">    &lt;label id=&quot;score_label&quot;&gt;0&lt;/label&gt;</span><br><span class="line">    &lt;br/&gt;</span><br><span class="line">    &lt;br/&gt;</span><br><span class="line">    &lt;button type=&quot;button&quot; id=&quot;game_btn&quot;&gt;玩游戏&lt;/button&gt;</span><br><span class="line">    &lt;button type=&quot;button&quot; id=&quot;score_btn&quot;&gt;上传分数&lt;/button&gt;</span><br><span class="line">    &lt;button type=&quot;button&quot; id=&quot;rank_btn&quot;&gt;查看排行榜&lt;/button&gt;</span><br><span class="line">    &lt;!-- 前端逻辑处理脚本 --&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">    //获取 名字和分数 两个值</span><br><span class="line">    var scoreLabel = document.getElementById(&apos;score_label&apos;);</span><br><span class="line">    var nameInput = document.getElementById(&apos;name_input&apos;);</span><br><span class="line"></span><br><span class="line">    // 玩游戏</span><br><span class="line">    document.getElementById(&apos;game_btn&apos;).onclick = function() &#123;</span><br><span class="line">        var name = name_input.value;</span><br><span class="line">        //校验参数</span><br><span class="line">        if (name.length == 0) &#123;</span><br><span class="line">            alert(&quot;请先输入你的大名！！！&quot;);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        //生成随机参数  0-1000</span><br><span class="line">        var randScore = parseInt(1000 * Math.random())</span><br><span class="line">        // alert(randScore)</span><br><span class="line">        scoreLabel.innerText = randScore</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    //上传分数</span><br><span class="line">    document.getElementById(&apos;score_btn&apos;).onclick = function() &#123;</span><br><span class="line">        var name = name_input.value;</span><br><span class="line">        var score = scoreLabel.innerText</span><br><span class="line">        //校验参数</span><br><span class="line">        if (name.length == 0) &#123;</span><br><span class="line">            alert(&quot;请先输入你的大名！！！&quot;);</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        //上传分数到服务端</span><br><span class="line">        $.ajax(&#123;</span><br><span class="line">            &#123;% url %&#125;: &quot;/score&quot;,</span><br><span class="line">            type: &quot;GET&quot;,</span><br><span class="line">            data: &#123;</span><br><span class="line">                &quot;nickName&quot;: name,</span><br><span class="line">                &quot;score&quot;: score</span><br><span class="line">            &#125;,</span><br><span class="line">            success: function(data) &#123;</span><br><span class="line">                var dataTmp = JSON.parse(data);</span><br><span class="line">                var status = dataTmp[&apos;status&apos;]</span><br><span class="line">                var msg = dataTmp[&apos;errorMsg&apos;]</span><br><span class="line">                if (status == 0) &#123;</span><br><span class="line">                    alert(&quot;上传成功&quot;)</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    alert(msg)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="4、测试游戏和分数上传"><a href="#4、测试游戏和分数上传" class="headerlink" title="4、测试游戏和分数上传"></a>4、测试游戏和分数上传</h2><p>启动游戏服务：<br><code>python3 manage.py runserver</code></p>
+<p>打开浏览器访问：<br><code>http://127.0.0.1:8000/game</code></p>
+<p><img src="media/15323378816052.jpg" alt="15323378816052"></p>
+<p>输入昵称即可游戏和上传分数</p>
+<h2 id="5、编写排行榜逻辑"><a href="#5、编写排行榜逻辑" class="headerlink" title="5、编写排行榜逻辑"></a>5、编写排行榜逻辑</h2><p><code>demoProject/wechatGame/templates</code>下新建<code>rank.html</code><br>该文件主要是列出当前排行榜数据<br>具体实现代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;我是小程序的标题啊&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;table id=&quot;table&quot;&gt;</span><br><span class="line">        &lt;thead&gt;</span><br><span class="line">            &lt;tr&gt;</span><br><span class="line">                &lt;th&gt;名次&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;昵称&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;分数&lt;/th&gt;</span><br><span class="line">                &lt;th&gt;游戏时间&lt;/th&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">        &lt;/thead&gt;</span><br><span class="line">        &lt;tbody&gt;</span><br><span class="line">            &#123;% for player in players %&#125;</span><br><span class="line">            &lt;tr&gt;</span><br><span class="line">                &lt;td&gt;&#123;&#123; forloop.counter &#125;&#125;&lt;/td&gt;</span><br><span class="line">                &lt;td&gt;&#123;&#123; player.nickName &#125;&#125;&lt;/td&gt;</span><br><span class="line">                &lt;td&gt;&#123;&#123; player.score &#125;&#125;&lt;/td&gt;</span><br><span class="line">                &lt;td&gt;&#123;&#123; player.updateTime &#125;&#125;&lt;/td&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">            &#123;% empty %&#125;</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;h4&gt;暂无排行榜数据&lt;/h4&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &#123;% endfor %&#125;</span><br><span class="line">        &lt;/tbody&gt;</span><br><span class="line">    &lt;/table&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>在 <code>demoProject/wechatGame/views.py</code> 里添加函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def rankPage(request):</span><br><span class="line">    #取出数据库中的排名数据</span><br><span class="line">    players = Player.objects.all().order_by(&quot;-score&quot;)</span><br><span class="line">    return render(request, &apos;rank.html&apos;,&#123;&quot;players&quot;:players&#125;)</span><br></pre></td></tr></table></figure>
+<p>在 <code>demoProject/demoProject/urls.py</code> 里添加路由：</p>
+<p><code>path(&#39;getrank&#39;, wechatViews.rankPage)</code></p>
+<p>启动服务：</p>
+<p><code>python3 manage.py runserver</code></p>
+<p>打开浏览器测试：</p>
+<p><code>http://127.0.0.1:8000/getrank</code></p>
+<p><img src="media/15323385388856.jpg" alt="15323385388856"></p>
+<p>可以配置游戏页面的查看排行榜按你链接跳转到排行榜：</p>
+<p><code>&lt;button type=&quot;button&quot; id=&quot;rank_btn&quot; onclick=&quot;javascript:window.location.href=&#39;http://127.0.0.1:8000/getrank&#39;&quot;&gt;查看排行榜&lt;/button&gt;</code></p>
+<p>这样我们就完成了我们所有的逻辑。</p>
+<h2 id="6、参考资料：-1"><a href="#6、参考资料：-1" class="headerlink" title="6、参考资料："></a>6、参考资料：</h2><p>1、<a href="http://www.w3school.com.cn/html/index.asp" target="_blank" rel="noopener">html教程</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/13/ios-memery/" rel="next" title="memery manager">
+                <i class="fa fa-chevron-left"></i> memery manager
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/13/mysql-user/" rel="prev" title="MySQL创建用户与授权">
+                MySQL创建用户与授权 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2019/07/13/django-tutorial/" data-title="Django Tutorial" data-content data-url="http://yinghuochong.github.io/2019/07/13/django-tutorial/">
+  <div class="ds-share-inline">
+    <ul class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2019/07/13/django-tutorial/" data-title="Django Tutorial" data-url="http://yinghuochong.github.io/2019/07/13/django-tutorial/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/2938786?v=3&u=bfbfd2920ad7fcf69e16db28c68d58ad84e39cfd&s=400" alt="萤火虫">
+            
+              <p class="site-author-name" itemprop="name">萤火虫</p>
+              <p class="site-description motion-element" itemprop="description">只想安静地写点东西</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yinghuochong" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.douban.com/people/142593473/" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.wzblog.cn" title="吴征的笔记本" target="_blank">吴征的笔记本</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#（一）Django-环境搭建"><span class="nav-number">1.</span> <span class="nav-text">（一）Django 环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0、介绍"><span class="nav-number">1.1.</span> <span class="nav-text">0、介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1、Python2和python3在Mac上的共存"><span class="nav-number">1.2.</span> <span class="nav-text">1、Python2和python3在Mac上的共存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、python3的安装"><span class="nav-number">1.3.</span> <span class="nav-text">2、python3的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法二："><span class="nav-number">1.3.1.</span> <span class="nav-text">方法二：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、检查python3和pip3是否正确安装"><span class="nav-number">1.4.</span> <span class="nav-text">3、检查python3和pip3是否正确安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、虚拟环境"><span class="nav-number">1.5.</span> <span class="nav-text">4、虚拟环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、参考资料："><span class="nav-number">1.6.</span> <span class="nav-text">6、参考资料：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#（二）Django-Hello-World"><span class="nav-number">2.</span> <span class="nav-text">（二）Django Hello World</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0、介绍："><span class="nav-number">2.1.</span> <span class="nav-text">0、介绍：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1、创建名字为demoProject的项目："><span class="nav-number">2.2.</span> <span class="nav-text">1、创建名字为demoProject的项目：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、创建名字为hello的应用："><span class="nav-number">2.3.</span> <span class="nav-text">2、创建名字为hello的应用：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、项目目录结构介绍："><span class="nav-number">2.4.</span> <span class="nav-text">3、项目目录结构介绍：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、运行项目："><span class="nav-number">2.5.</span> <span class="nav-text">4、运行项目：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、添加helloworld接口："><span class="nav-number">2.6.</span> <span class="nav-text">5、添加helloworld接口：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1、配置app"><span class="nav-number">2.6.1.</span> <span class="nav-text">5.1、配置app</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2、-编写返回hello的接口"><span class="nav-number">2.6.2.</span> <span class="nav-text">5.2、 编写返回hello的接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3、-添加路由"><span class="nav-number">2.6.3.</span> <span class="nav-text">5.3、 添加路由</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、测试hello-world"><span class="nav-number">2.7.</span> <span class="nav-text">6、测试hello world</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、参考资料："><span class="nav-number">2.8.</span> <span class="nav-text">7、参考资料：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#（三）Django-简单小程序接口实现"><span class="nav-number">3.</span> <span class="nav-text">（三）Django 简单小程序接口实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0-介绍："><span class="nav-number">3.1.</span> <span class="nav-text">0 介绍：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1、创建并配置小程序应用："><span class="nav-number">3.2.</span> <span class="nav-text">1、创建并配置小程序应用：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1、-在helloworld项目中新建应用wechatGame："><span class="nav-number">3.2.1.</span> <span class="nav-text">1.1、 在helloworld项目中新建应用wechatGame：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2、将应用添加到项目配置"><span class="nav-number">3.2.2.</span> <span class="nav-text">1.2、将应用添加到项目配置:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、创建Player玩家模型"><span class="nav-number">3.3.</span> <span class="nav-text">2、创建Player玩家模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、实现两个接口逻辑"><span class="nav-number">3.4.</span> <span class="nav-text">3、实现两个接口逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、-在-urls-里配置路由"><span class="nav-number">3.5.</span> <span class="nav-text">4、 在 urls 里配置路由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、将model应用到数据库"><span class="nav-number">3.6.</span> <span class="nav-text">5、将model应用到数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、测试接口"><span class="nav-number">3.7.</span> <span class="nav-text">6、测试接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、参考资料：-1"><span class="nav-number">3.8.</span> <span class="nav-text">7、参考资料：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#（四）Django-管理后台"><span class="nav-number">4.</span> <span class="nav-text">（四）Django 管理后台</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、创建初始管理员密码"><span class="nav-number">4.1.</span> <span class="nav-text">1、创建初始管理员密码:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、访问管理后台："><span class="nav-number">4.2.</span> <span class="nav-text">2、访问管理后台：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#（五）Django-简单的前端界面"><span class="nav-number">5.</span> <span class="nav-text">（五）Django 简单的前端界面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、新建模板页面"><span class="nav-number">5.1.</span> <span class="nav-text">1、新建模板页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、增加访问游戏页面接口"><span class="nav-number">5.2.</span> <span class="nav-text">2、增加访问游戏页面接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、编写游戏前端页面"><span class="nav-number">5.3.</span> <span class="nav-text">3、编写游戏前端页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、测试游戏和分数上传"><span class="nav-number">5.4.</span> <span class="nav-text">4、测试游戏和分数上传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、编写排行榜逻辑"><span class="nav-number">5.5.</span> <span class="nav-text">5、编写排行榜逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、参考资料：-1"><span class="nav-number">5.6.</span> <span class="nav-text">6、参考资料：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">萤火虫</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"imhuazai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

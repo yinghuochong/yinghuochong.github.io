@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iOS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、 block介绍？block是C语言的扩展">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="block">
+<meta property="og:url" content="http://yinghuochong.github.io/2019/07/13/ios-block/index.html">
+<meta property="og:site_name" content="萤火虫">
+<meta property="og:description" content="1、 block介绍？block是C语言的扩展">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-22T02:46:46.070Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="block">
+<meta name="twitter:description" content="1、 block介绍？block是C语言的扩展">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yinghuochong.github.io/2019/07/13/ios-block/">
+
+
+
+
+
+  <title>block | 萤火虫</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?f54dcdf35994e9f2356bfc17a31dfd44";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">萤火虫</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不是bug</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yinghuochong.github.io/2019/07/13/ios-block/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="萤火虫">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://avatars1.githubusercontent.com/u/2938786?v=3&u=bfbfd2920ad7fcf69e16db28c68d58ad84e39cfd&s=400">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="萤火虫">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">block</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-13T16:30:59+08:00">
+                2019-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/07/13/ios-block/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2019/07/13/ios-block/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1、-block介绍？"><a href="#1、-block介绍？" class="headerlink" title="1、 block介绍？"></a>1、 block介绍？</h1><p>block是C语言的扩展<br><a id="more"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//block</span><br><span class="line">^ returnType (parameter1, parameter2, parameter3, ...) </span><br><span class="line">&#123;</span><br><span class="line">    //block code</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>block的标志就是^，所有的block必须以^开头<br>returnType表示返回值类型，如果没有返回值一般使用void表示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//block变量</span><br><span class="line">returnType (^blockName) (parameter1, parameter2, ...);</span><br></pre></td></tr></table></figure>
+<p>必须包含blockName并且以^开头，是block的标志<br>参数列表可以和声明函数一样，只写出形参类型不需写出形参名称</p>
+<p>比如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void (^printBlock)(void) = ^ void(void) &#123;</span><br><span class="line">            NSLog(@&quot;Hello World&quot;);</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
+<p>注意：<br>定义block变量的时候不能省略返回值类型、block名称以及形参列表，如果没有参数则用void占位或者不写，这样就能够定义一个block变量。</p>
+<p>定义block的时候如果返回值为void可以省略，如果没有形参可以使用void占位或者整个形参列表都省略不写。</p>
+<p>简化后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void (^printBlock)() = ^&#123;</span><br><span class="line">            NSLog(@&quot;Hello World&quot;);</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure></p>
+<p>定义block类型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">typedef  returnType (^blockTypeName) (parameter1, parameter2, ...)</span><br></pre></td></tr></table></figure>
+<h1 id="2、block有哪几类？"><a href="#2、block有哪几类？" class="headerlink" title="2、block有哪几类？"></a>2、block有哪几类？</h1><p>NSGlobalBlock<br>如果block不捕获外部变量，那么在ARC环境下就是创建一个全局block。全局block存储在全局内存中，不需要在每次调用的时候都在栈中创建，块所使用的整个内存区在编译期已经确定了，因此这种块是一种单例，不需要多次创建。</p>
+<p>NSMallocBlock<br>如果block捕获外部变量，那么在ARC环境下就是创了一个堆区block。代码中最常用的block也就是堆区block，当堆区block的引用计数为0时也会像普通对象一样被销毁，再也不能使用了。</p>
+<p>NSStackBlock<br>在MRC环境下，默认创建栈区block，一般使用copy函数拷贝到堆区再使用，否则block可能会被释放，在ARC环境下一般不考虑。</p>
+<h1 id="3、block捕获变量是怎么回事？"><a href="#3、block捕获变量是怎么回事？" class="headerlink" title="3、block捕获变量是怎么回事？"></a>3、block捕获变量是怎么回事？</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NSUInteger age = 22;</span><br><span class="line">void (^printBlock)() = ^ &#123;</span><br><span class="line">    NSLog(@&quot;My Age is %ld&quot;, age);</span><br><span class="line">    //age = 33; // 这里会报错，因为block内部不允许修改变量的值</span><br><span class="line">&#125;;</span><br><span class="line">//输出 Age is 22</span><br><span class="line">NSLog(@&quot;Age is %ld&quot;, age);</span><br><span class="line">age = 100;</span><br><span class="line">//输出 Age is 100</span><br><span class="line">NSLog(@&quot;Age is %ld&quot;, age);</span><br><span class="line">//输出 My Age is 22</span><br><span class="line">printBlock();</span><br></pre></td></tr></table></figure>
+<p>在执行block之前修改变量的值，并不影响最终block内部代码，这是由于在定义block块的时候编译器已经在编译期将外部变量值赋给了block内部变量（称为“值捕获”），在这时候进行了一次值拷贝，而不是在运行时赋值，因此外部变量的修改不会影响到内部block的输出。</p>
+<p>简单理解的话：就是传递了形参给block</p>
+<p>变量类型是不可变对象的时候也是一样的，block里捕获的是age当时的指针，所以变量还是指向@”22”，就像函数传了形参进来一样。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NSString *age = @&quot;22&quot;;</span><br><span class="line">void (^printBlock)() = ^ &#123;</span><br><span class="line">    NSLog(@&quot;My Age is %@&quot;, age);</span><br><span class="line">    //age = @&quot;33&quot;; // 这里会报错，因为block内部不允许修改变量的值</span><br><span class="line">&#125;;</span><br><span class="line">//输出 Age is 22</span><br><span class="line">NSLog(@&quot;Age is %@&quot;, age);</span><br><span class="line">age = @&quot;100&quot;;</span><br><span class="line">//输出 Age is 100</span><br><span class="line">NSLog(@&quot;Age is %@&quot;, age);</span><br><span class="line">//输出 My Age is 22</span><br><span class="line">printBlock();</span><br></pre></td></tr></table></figure></p>
+<p>但是如果捕获的是一个可变类型，也可以理解为像形参一样传进来，外边修改也会影响到里边</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//定义一个NSMutableString类型的变量</span><br><span class="line">       NSMutableString *content = [[NSMutableString alloc] initWithString:@&quot;Jiaming Chen&quot;];</span><br><span class="line">       void (^printBlock)() = ^ &#123;</span><br><span class="line">           NSLog(@&quot;%@&quot;, content);</span><br><span class="line">       &#125;;</span><br><span class="line">       //输出 Jiaming Chen</span><br><span class="line">       NSLog(@&quot;%@&quot;, content);</span><br><span class="line">       [content appendString:@&quot; is a good guy&quot;];</span><br><span class="line">       //输出 Jiaming Chen is a good guy</span><br><span class="line">       printBlock();</span><br></pre></td></tr></table></figure>
+<p>如果希望block捕获的变量在外部修改后也可以影响block内部，或是想在block内部修改捕获的变量，可以使用__block关键字定义变量。<br>简单理解，可以理解传递了参数的指针进来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//使用__block关键字定义age</span><br><span class="line">__block NSUInteger age = 22;</span><br><span class="line">void (^printBlock)() = ^ &#123;</span><br><span class="line">    NSLog(@&quot;My Age is %ld&quot;, age);</span><br><span class="line">    age = 200;</span><br><span class="line">&#125;;</span><br><span class="line">//输出 Age is 22</span><br><span class="line">NSLog(@&quot;Age is %ld&quot;, age);</span><br><span class="line">age = 100;</span><br><span class="line">//输出 Age is 100</span><br><span class="line">NSLog(@&quot;Age is %ld&quot;, age);</span><br><span class="line">//输出 My Age is 100</span><br><span class="line">printBlock();</span><br><span class="line">//输出 Age is 200</span><br><span class="line">NSLog(@&quot;Age is %ld&quot;, age);</span><br></pre></td></tr></table></figure>
+<p>上述代码使用__block定义变量age，这样定义以后编译器会在block定义的时候捕获变量的引用而不是拷贝一个值</p>
+<h1 id="4、block-循环引用是怎么回事？如何解决？"><a href="#4、block-循环引用是怎么回事？如何解决？" class="headerlink" title="4、block 循环引用是怎么回事？如何解决？"></a>4、block 循环引用是怎么回事？如何解决？</h1><p>循环引用可以简单理解为A引用了B，而B又引用了A，双方都同时保持对方的一个引用，导致任何时候引用计数都不为0，始终无法释放。</p>
+<p>常见的循环引用场景：<br>1、NSTimer<br>NSTimer 的 target 对传入的参数都是强引用， 如果这时候target再持有了 timer 就会循环引用<br>解决方法：</p>
+<blockquote>
+<p> 不要在 target的 dealloc里清理timer，应该单独的清理timer方法，打破引用</p>
+</blockquote>
+<blockquote>
+<p>可以不要强引用target</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">@interface NSTimer (YPQBlocksSupport)</span><br><span class="line"></span><br><span class="line">+ (NSTimer *)ypq_scheduledTimeWithTimeInterval:(NSTimeInterval)interval</span><br><span class="line">                                         block:(void(^)())block</span><br><span class="line">                                       repeats:(BOOL)repeats;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#import &quot;NSTimer+YPQBlocksSupport.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation NSTimer (YPQBlocksSupport)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">+ (NSTimer *)ypq_scheduledTimeWithTimeInterval:(NSTimeInterval)interval</span><br><span class="line">                                         block:(void(^)())block</span><br><span class="line">                                       repeats:(BOOL)repeats</span><br><span class="line">&#123;</span><br><span class="line">    return [self scheduledTimerWithTimeInterval:interval</span><br><span class="line">                                         target:self</span><br><span class="line">                                       selector:@selector(ypq_blockInvoke:) userInfo:[block copy]</span><br><span class="line">                                        repeats:repeats];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)ypq_blockInvoke:(NSTimer *)timer</span><br><span class="line">&#123;</span><br><span class="line">    void (^block)() = timer.userInfo;</span><br><span class="line">    if(block)</span><br><span class="line">    &#123;</span><br><span class="line">        block();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">//调用</span><br><span class="line"></span><br><span class="line">__weak ViewController * weakSelf = self;</span><br><span class="line">[NSTimer ypq_scheduledTimeWithTimeInterval:4.0f</span><br><span class="line">                                     block:^&#123;</span><br><span class="line">                                         ViewController * strongSelf = weakSelf;</span><br><span class="line">                                         [strongSelf afterThreeSecondBeginAction];</span><br><span class="line">                                     &#125;</span><br><span class="line">                                   repeats:YES];</span><br></pre></td></tr></table></figure>
+<p>注意 ：千万不要忘记 invalidate</p>
+<p>2、delegate</p>
+<p>正常声明delegate<br><figure class="highlight plain"><figcaption><span>(nonatomic, weak) id <testdelegate> delegate; ```</testdelegate></span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">如果用 strong ，就可能循环引用</span><br><span class="line"></span><br><span class="line">A 类有个属性是 delegate    B 有个成员 是A的对象， 并且把A的delegate 设置成 B， 这样就会相互依赖，</span><br><span class="line"></span><br><span class="line">3、block</span><br></pre></td></tr></table></figure></p>
+<p>@interface ClassA ()<br>@property (nonatomic, copy) dispatch_block_t block;<br>@property (nonatomic, assign) NSInteger tem;<br>@end<br>@implementation ClassA</p>
+<ul>
+<li>(void)viewDidLoad {<br>  [super viewDidLoad];<br>  self.block = ^{<pre><code>self.tem = 1;
+</code></pre>  };<br>}<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">self持有block，block里又用到self的时候，就会相互持有，导致循环引用</span><br><span class="line">一般编译器会提示警告⚠️</span><br><span class="line">一般通过打破循环来解决：</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>@interface ClassA ()<br>@property (nonatomic, copy) dispatch_block_t block;<br>@property (nonatomic, assign) NSInteger tem;<br>@end<br>@implementation ClassA</p>
+<ul>
+<li><p>(void)viewDidLoad {<br>  [super viewDidLoad];<br>  __weak typeof(self) weakSelf = self<br>  self.block = ^{</p>
+<pre><code>weakSelf.tem = 1;
+</code></pre><p>  };<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">但是这种解决方法在个别情况下会有问题：</span><br></pre></td></tr></table></figure>
+<p>  __weak typeof(self) weakSelf = self;<br>  self.block = ^{</p>
+<pre><code>dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    NSLog(@&quot;%@&quot;, weakSelf.str);
+});
+</code></pre><p>  };<br>  self.block();   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">当10s后执行NSLog的时候weakself内存已经被销毁，所以打印为null</span><br><span class="line"></span><br><span class="line">更好的解决方法：</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>weak typeof(self) weakSelf = self;<br>    self.block = ^{
+        </strong>strong typeof(self) strongSelf = weakSelf;<br>        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{<br>            NSLog(@”%@”, strongSelf.str);<br>        });<br>    };<br>    self.block();<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">外部的weakSelf是为了打破环，从而使得没有循环引用，而内部的strongSelf仅仅是个局部变量,会在block执行结束销毁,不会有循环引用。</span><br><span class="line">strongSelf 会使self的引用计数+1，所以self不会被立刻销毁，当block执行完self才会被销毁。</span><br><span class="line"></span><br><span class="line">这样写很麻烦，当日也可以使用  @weakify和@strongify  来简化</span><br><span class="line"></span><br><span class="line">4、类与类之间的引用</span><br><span class="line">比如： 在使用UITableView 的时候，将 UITableView 给 Cell 使用，cell 中的 strong 引用会造成循环引用。</span><br></pre></td></tr></table></figure></p>
+<p>// controller</p>
+<ul>
+<li>(UITableViewCell <em>)tableView:(UITableView </em>)tableView cellForRowAtIndexPath:(NSIndexPath <em>)indexPath {<br>  TestTableViewCell </em>cell =[tableView dequeueReusableCellWithIdentifier:@”UITableViewCellId” forIndexPath:indexPath];<br>  cell.tableView = tableView;<br>  return cell;<br>}</li>
+</ul>
+<p>// cell<br>@interface TestTableViewCell : UITableViewCell<br>@property (nonatomic, strong) UITableView *tableView; // strong 造成循环引用<br>@end<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">解决方法就是：strong 改为 weak</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 5、为什么一些系统提供的block不需要考虑循环引用？</span><br><span class="line">比如：</span><br><span class="line">```+ (void)animateWithDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options animations:(void (^)(void))animations completion:(void (^ __nullable)(BOOL finished))completion NS_AVAILABLE_IOS(4_0);</span><br></pre></td></tr></table></figure></p>
+<p>因为是类方法 block里虽然可能引用self，但是self 并没有引用对象</p>
+<h1 id="6、使用系统的某些block-api（如UIView的block版本写动画时），是否也考虑引用循环问题？"><a href="#6、使用系统的某些block-api（如UIView的block版本写动画时），是否也考虑引用循环问题？" class="headerlink" title="6、使用系统的某些block api（如UIView的block版本写动画时），是否也考虑引用循环问题？"></a>6、使用系统的某些block api（如UIView的block版本写动画时），是否也考虑引用循环问题？</h1><p>系统的某些block api中，UIView的block版本写动画时不需要考虑，但也有一些api 需要考虑：</p>
+<p>所谓“引用循环”是指双向的强引用，所以那些“单向的强引用”（block 强引用 self ）没有问题，比如这些：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[UIView animateWithDuration:duration animations:^&#123; [self.superview layoutIfNeeded]; &#125;]; </span><br><span class="line">[[NSOperationQueue mainQueue] addOperationWithBlock:^&#123; self.someProperty = xyz; &#125;]; </span><br><span class="line">[[NSNotificationCenter defaultCenter] addObserverForName:@&quot;someNotification&quot; </span><br><span class="line">                                                 object:nil </span><br><span class="line">                          queue:[NSOperationQueue mainQueue]</span><br><span class="line">                                             usingBlock:^(NSNotification * notification) &#123;</span><br><span class="line">                                                   self.someProperty = xyz; &#125;];</span><br></pre></td></tr></table></figure></p>
+<p>这些情况不需要考虑“引用循环”。</p>
+<p>但如果你使用一些参数中可能含有 ivar 的系统 api ，如 GCD 、NSNotificationCenter就要小心一点：比如GCD 内部如果引用了 self，而且 GCD 的其他参数是 ivar，则要考虑到循环引用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">__weak __typeof__(self) weakSelf = self;</span><br><span class="line">dispatch_group_async(_operationsGroup, _operationsQueue, ^</span><br><span class="line">&#123;</span><br><span class="line">__typeof__(self) strongSelf = weakSelf;</span><br><span class="line">[strongSelf doSomething];</span><br><span class="line">[strongSelf doSomethingElse];</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
+<p>类似的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">__weak __typeof__(self) weakSelf = self;</span><br><span class="line">_observer = [[NSNotificationCenter defaultCenter] addObserverForName:@&quot;testKey&quot;</span><br><span class="line">                                                              object:nil</span><br><span class="line">                                                               queue:nil</span><br><span class="line">                                                          usingBlock:^(NSNotification *note) &#123;</span><br><span class="line">    __typeof__(self) strongSelf = weakSelf;</span><br><span class="line">    [strongSelf dismissModalViewControllerAnimated:YES];</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure></p>
+<p>self –&gt; _observer –&gt; block –&gt; self 显然这也是一个循环引用。</p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://www.jianshu.com/p/184b04c1f454" target="_blank" rel="noopener">iOS block探究(一): 基础详解</a><br><a href="https://www.jianshu.com/p/b6a675a7a4fa" target="_blank" rel="noopener">iOS block探究(二): 深入理解</a><br><a href="https://www.jianshu.com/p/e3302eac8536" target="_blank" rel="noopener">iOS中的循环引用</a><br><a href="https://www.jianshu.com/p/51bb714051ea" target="_blank" rel="noopener">循环引用，看我就对了</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/13/ios-autorelease/" rel="next" title="autorelease">
+                <i class="fa fa-chevron-left"></i> autorelease
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/13/ios-kvo/" rel="prev" title="KVO">
+                KVO <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2019/07/13/ios-block/" data-title="block" data-content data-url="http://yinghuochong.github.io/2019/07/13/ios-block/">
+  <div class="ds-share-inline">
+    <ul class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div class="ds-thread" data-thread-key="2019/07/13/ios-block/" data-title="block" data-url="http://yinghuochong.github.io/2019/07/13/ios-block/">
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://avatars1.githubusercontent.com/u/2938786?v=3&u=bfbfd2920ad7fcf69e16db28c68d58ad84e39cfd&s=400" alt="萤火虫">
+            
+              <p class="site-author-name" itemprop="name">萤火虫</p>
+              <p class="site-description motion-element" itemprop="description">只想安静地写点东西</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yinghuochong" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.douban.com/people/142593473/" target="_blank" title="豆瓣">
+                      
+                        <i class="fa fa-fw fa-globe"></i>豆瓣</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.wzblog.cn" title="吴征的笔记本" target="_blank">吴征的笔记本</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1、-block介绍？"><span class="nav-number">1.</span> <span class="nav-text">1、 block介绍？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2、block有哪几类？"><span class="nav-number">2.</span> <span class="nav-text">2、block有哪几类？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3、block捕获变量是怎么回事？"><span class="nav-number">3.</span> <span class="nav-text">3、block捕获变量是怎么回事？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4、block-循环引用是怎么回事？如何解决？"><span class="nav-number">4.</span> <span class="nav-text">4、block 循环引用是怎么回事？如何解决？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6、使用系统的某些block-api（如UIView的block版本写动画时），是否也考虑引用循环问题？"><span class="nav-number">5.</span> <span class="nav-text">6、使用系统的某些block api（如UIView的block版本写动画时），是否也考虑引用循环问题？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">萤火虫</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"imhuazai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
