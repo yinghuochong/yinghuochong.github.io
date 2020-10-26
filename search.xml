@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[解决使用 Transporter 上传 ipa 到 App Store 时，有时间会卡住或者非常慢。]]></title>
+    <url>%2F2020%2F10%2F26%2Fuploadipaslow%2F</url>
+    <content type="text"><![CDATA[很多人提交向appstore提交app都是通过transporter进行上传安装包以供审核，会出现 正在验证APP-正在通过App Store进行认证等情况解决方式，可参考链接：https://github.com/iOSDevLog/com.apple.amp.itmstransporter]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[【转载】iOS 升级后，XCode无法调试]]></title>
     <url>%2F2020%2F06%2F22%2Fiosupdate%2F</url>
     <content type="text"><![CDATA[问题描述iPhone升级后，发现XCode无法真机调试。提示：： which may not be supported by this version of Xcode 发现是XCode版本过老，可以更新XCode，但更新一般较慢。最快的解决方法如下。 解决1.去下述链接下载缺少的包（XCode报错缺哪个版本的包就下哪个zip）https://github.com/xushuduo/Xcode-iOS-Developer-Disk-Image/releases 备用链接：https://github.com/filsv/iPhoneOSDeviceSupport 2. 快捷键command + shift + G 前往文件夹：/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport 3.把刚才下载的压缩包解压放进去。直接解压就行，不需要其他处理，如图： 4. 把真机拔离电脑，重启XCode。 即可安装app到手机调试参考原文链接]]></content>
@@ -16,14 +21,14 @@
     <content type="text"><![CDATA[这个公共平台开通以后，我收到过很多寻求建议的问题，也尝试回复过一些，还有一些是我没有能力回复的。人生一路走来我们会寻求很多建议，也有很多人给你忠告，需要警惕的是，这里面有相当一部分人的“忠告”总是负面的，比如你想去学编程，他说，你的逻辑能力不适合编程，你说要去做销售；他说，性格决定命运，你的性格做不了销售；你说我要去创业，他说，这个项目类型没人会投资的，早做早死晚做晚死；你说我要站着把钱挣了，他说，这是在中国……当你稍微遭遇了一点失败的时候，这些人就会祭出万试万灵杀手锏：你看，我早就说过…… 我们把这样的人统称为Hater，这种人对自己不了解或没有勇气尝试的事务永远持否定态度，如果你发现一个人大部分时间在否定着什么，那么他们的意见不听也罢，甚至于那些鼓励的建议也仅仅是建议而已，仅供参考，因为最终不是那些提建议的人去做事和承担后果。做任何事情都是我们自己的选择，想清楚了也好，没想清楚也罢，想去做的话，尽可能鼓励自己去做，做实事的人总是让人敬佩的，而且由于我们在做事，所以总会遇到失败，这时候那些口诵大悲咒“我早就说过”的Hater是完全可以忽视的，因为所有人都是在试错中成长，那些不犯错的人充满了各种幻觉，其实是因为他不再成长了。 李笑来在《把时间当做朋友》一书中写道：他们一定要给你泼冷水的。泼冷水的愿望之强烈，你无法想象。那种强烈借助了太多的力量：怀疑、嫉妒、恐惧、 愤怒。而在表现的过程中却又包装上另外一层表皮：关怀、 爱护、友爱、帮助。 当然李笑来没有把“他们”定义为Hater，但我想应该是一个意思。所以我们首先不要自己成为Hater，另外也没必要去听取Hater的忠告。地球也不会因为Hater的存在而停止转动！ 当老罗的锤子手机发布的时候，我仿佛是看到了一群Hater冲上去一顿狂贬，当然里面也包含了一些看似有道理的贬，但是这些东西有什么力量呢？老罗不也说了么，你们的感受我根本不在乎。我不认为锤子有一天能够砸烂苹果，但锤子会有自己要砸的东西…… 当时就有写这一篇的冲动，不过一直放倒今天才写，是为记：Don’t be a Hater! 原文链接：不要做一个Hater]]></content>
   </entry>
   <entry>
-    <title><![CDATA[Xcode10 Xcode11 libstdc++.6.0.9.tbd libstdc++.6.0.9.dylib 报错解决]]></title>
-    <url>%2F2020%2F06%2F07%2F2020-01-28%2F</url>
-    <content type="text"><![CDATA[升级Xcode10 后, 项目编译时可能会出现libstdc++.6.0.9系列的错。原因:苹果早在 Xcode 8中 就废弃了libstdc++, 给了开发者两年时间过渡, 如今从Xcode 10中已不再支持. 在 Build Phases &gt; Link Binary With Libraries 中已经搜不到libstdc++的库了 解决将缺少的库加入xcode10/11的相应目录。缺失的库可以在老版xcode目录中找 模拟器需要的tbd： libstdc++.6.0.9.tbd 路径： /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib/ 真机需要的tbd： libstdc++.6.0.9.tbd 路径：/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/ dylib : libstdc++.6.0.9.dylib (两个，包括快捷方式) xcode11之前路径： /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/usr/lib/ xcode11路径： /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/usr/lib 这里有所需要的库与打开相应路径的脚本： 链接: https://github.com/sy5075391/XcodeDeletion]]></content>
-  </entry>
-  <entry>
     <title><![CDATA[Mac连接设备USB断断续续]]></title>
     <url>%2F2020%2F06%2F07%2Fmac-usb%2F</url>
     <content type="text"><![CDATA[老款Mac连接设备老是断断续续，其实是 usbd 进程搞的鬼。 把 usbd 进程杀掉就好了。 代码 sudo killall -STOP -c usbd 参考资料：Mac连接设备USB断断续续]]></content>
+  </entry>
+  <entry>
+    <title><![CDATA[Xcode10 Xcode11 libstdc++.6.0.9.tbd libstdc++.6.0.9.dylib 报错解决]]></title>
+    <url>%2F2020%2F06%2F07%2F2020-01-28%2F</url>
+    <content type="text"><![CDATA[升级Xcode10 后, 项目编译时可能会出现libstdc++.6.0.9系列的错。原因:苹果早在 Xcode 8中 就废弃了libstdc++, 给了开发者两年时间过渡, 如今从Xcode 10中已不再支持. 在 Build Phases &gt; Link Binary With Libraries 中已经搜不到libstdc++的库了 解决将缺少的库加入xcode10/11的相应目录。缺失的库可以在老版xcode目录中找 模拟器需要的tbd： libstdc++.6.0.9.tbd 路径： /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/usr/lib/ 真机需要的tbd： libstdc++.6.0.9.tbd 路径：/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/usr/lib/ dylib : libstdc++.6.0.9.dylib (两个，包括快捷方式) xcode11之前路径： /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/usr/lib/ xcode11路径： /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS.simruntime/Contents/Resources/RuntimeRoot/usr/lib 这里有所需要的库与打开相应路径的脚本： 链接: https://github.com/sy5075391/XcodeDeletion]]></content>
   </entry>
   <entry>
     <title><![CDATA[on the road]]></title>

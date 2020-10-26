@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="字节序总是搞混，这里整理一下： 1、计算机单位：位(bit)：计算机的最小单位，可以表示0 和  1 字节(byte)：8个位组成一组 ，称为字节，每个字节可以表示一个文本字符;">
+<meta name="description" content="很多人提交向appstore提交app都是通过transporter进行上传安装包以供审核，会出现 正在验证APP-正在通过App Store进行认证等情况解决方式，可参考链接：https://github.com/iOSDevLog/com.apple.amp.itmstransporter">
 <meta property="og:type" content="article">
-<meta property="og:title" content="字节序-大端与小端">
-<meta property="og:url" content="http://yinghuochong.github.io/2017/01/15/byte-endian/index.html">
+<meta property="og:title" content="解决使用 Transporter 上传 ipa 到 App Store 时，有时间会卡住或者非常慢。">
+<meta property="og:url" content="http://yinghuochong.github.io/2020/10/26/uploadipaslow/index.html">
 <meta property="og:site_name" content="萤火虫">
-<meta property="og:description" content="字节序总是搞混，这里整理一下： 1、计算机单位：位(bit)：计算机的最小单位，可以表示0 和  1 字节(byte)：8个位组成一组 ，称为字节，每个字节可以表示一个文本字符;">
+<meta property="og:description" content="很多人提交向appstore提交app都是通过transporter进行上传安装包以供审核，会出现 正在验证APP-正在通过App Store进行认证等情况解决方式，可参考链接：https://github.com/iOSDevLog/com.apple.amp.itmstransporter">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-22T02:46:45.966Z">
+<meta property="og:updated_time" content="2020-10-26T12:26:13.508Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="字节序-大端与小端">
-<meta name="twitter:description" content="字节序总是搞混，这里整理一下： 1、计算机单位：位(bit)：计算机的最小单位，可以表示0 和  1 字节(byte)：8个位组成一组 ，称为字节，每个字节可以表示一个文本字符;">
+<meta name="twitter:title" content="解决使用 Transporter 上传 ipa 到 App Store 时，有时间会卡住或者非常慢。">
+<meta name="twitter:description" content="很多人提交向appstore提交app都是通过transporter进行上传安装包以供审核，会出现 正在验证APP-正在通过App Store进行认证等情况解决方式，可参考链接：https://github.com/iOSDevLog/com.apple.amp.itmstransporter">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yinghuochong.github.io/2017/01/15/byte-endian/">
+  <link rel="canonical" href="http://yinghuochong.github.io/2020/10/26/uploadipaslow/">
 
 
 
 
 
-  <title>字节序-大端与小端 | 萤火虫</title>
+  <title>解决使用 Transporter 上传 ipa 到 App Store 时，有时间会卡住或者非常慢。 | 萤火虫</title>
   
 
 
@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yinghuochong.github.io/2017/01/15/byte-endian/">
+    <link itemprop="mainEntityOfPage" href="http://yinghuochong.github.io/2020/10/26/uploadipaslow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="萤火虫">
@@ -259,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">字节序-大端与小端</h1>
+          <h1 class="post-title" itemprop="name headline">解决使用 Transporter 上传 ipa 到 App Store 时，有时间会卡住或者非常慢。</h1>
         
 
         <div class="post-meta">
@@ -271,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-15T08:53:41+08:00">
-                2017-01-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-26T20:23:08+08:00">
+                2020-10-26
               </time>
             
 
@@ -290,8 +290,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/15/byte-endian/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/15/byte-endian/" itemprop="commentCount"></span>
+                <a href="/2020/10/26/uploadipaslow/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2020/10/26/uploadipaslow/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -319,59 +319,7 @@
       
 
       
-        <p>字节序总是搞混，这里整理一下：</p>
-<h5 id="1、计算机单位："><a href="#1、计算机单位：" class="headerlink" title="1、计算机单位："></a>1、计算机单位：</h5><p><strong>位(bit)</strong>：计算机的最小单位，可以表示0 和  1</p>
-<p><strong>字节(byte)</strong>：8个位组成一组 ，称为字节，每个字节可以表示一个文本字符;</p>
-<a id="more"></a>
-<h5 id="2、什么是字节序："><a href="#2、什么是字节序：" class="headerlink" title="2、什么是字节序："></a>2、什么是字节序：</h5><p><strong>字节序</strong>：指多字节数据在计算机内存中存储或者网络传输时各字节的存储顺序。</p>
-<p><strong>大端字节序</strong>：把值的高字节存到低地址，我们平时书写都用这种字节序。</p>
-<p><strong>小端字节序</strong>：把值的低字节存到低地址</p>
-<blockquote>
-<p>计算机电路先处理低位字节，效率比较高，因为计算都是从低位开始的。所以，计算机的内部处理都是小端字节序。</p>
-</blockquote>
-<blockquote>
-<p>人类还是习惯读写大端字节序。所以，除了计算机的内部处理，其他的场合几乎都是大端字节序，比如网络传输和文件储存。</p>
-</blockquote>
-<blockquote>
-<p>计算机处理字节序的时候，不知道什么是高位字节，什么是低位字节。它只知道按顺序读取字节，先读第一个字节，再读第二个字节。如果是大端字节序，先读到的就是高位字节，后读到的就是低位字节。小端字节序正好相反。</p>
-</blockquote>
-<p>例如:  </p>
-<table>
-<thead>
-<tr>
-<th>16进制数（共占三个字节）</th>
-<th style="text-align:center">大端字节序存储</th>
-<th style="text-align:right">小端字节序存储</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0x112233   【11是高字节  33是低字节】</td>
-<td style="text-align:center">11 22 33</td>
-<td style="text-align:right">33 22 11</td>
-</tr>
-</tbody>
-</table>
-<h5 id="3、网络字节序"><a href="#3、网络字节序" class="headerlink" title="3、网络字节序"></a>3、网络字节序</h5><p>计算机之间通过网络进行通信时  需要保持一致的字节序</p>
-<p>RFC规定使用“大端”字节序作为网络字节序，所以在网络传输时，发送时需要先在自己的主机上转换为网络字节序，接受到数据再转化为自己主机的字节序</p>
-<h5 id="4、查看自己主机自己序"><a href="#4、查看自己主机自己序" class="headerlink" title="4、查看自己主机自己序"></a>4、查看自己主机自己序</h5><p>可以用一段代码查看自己主机的字节序</p>
-<pre><code>#include &lt;stdio.h&gt;
-int main ()
-{
-     int number = 1;   //0x00000001
-     if(*(char *)&amp;number == 1){
-         printf(&quot;Little-endian!\n”); 
-    }else{
-        printf(&quot;Big-endian!\n&quot;);
-    }
-    return 0;
-}
-</code></pre><p>int类型的1，在小端字节序下最低位为1，在大端字节序下，最高位为1。所以可以通过判断最低位是否为0来确定该机器的字节序是什么。 </p>
-<p><strong>Mac下是小端字节序</strong></p>
-<h5 id="5、参考资料："><a href="#5、参考资料：" class="headerlink" title="5、参考资料："></a>5、参考资料：</h5><p>1、<a href="http://www.ruanyifeng.com/blog/2016/11/byte-order.html" target="_blank" rel="noopener"><font color="blue">理解字节序</font></a></p>
-<p>2、<a href="https://zhuanlan.zhihu.com/p/21388517" target="_blank" rel="noopener"><font color="blue">字节序”是个什么鬼？</font></a></p>
-<p>3、<a href="http://blog.csdn.net/liuxingen/article/details/45420455/" target="_blank" rel="noopener"><font color="blue">字节序(byte order)和位序(bit order)</font></a></p>
-<p>4、<a href="http://www.linuxjournal.com/node/6788/print" target="_blank" rel="noopener"><font color="blue">Byte and Bit Order Dissection</font></a></p>
+        <h3 id="很多人提交向appstore提交app都是通过transporter进行上传安装包以供审核，会出现-正在验证APP-正在通过App-Store进行认证等情况"><a href="#很多人提交向appstore提交app都是通过transporter进行上传安装包以供审核，会出现-正在验证APP-正在通过App-Store进行认证等情况" class="headerlink" title="很多人提交向appstore提交app都是通过transporter进行上传安装包以供审核，会出现 正在验证APP-正在通过App Store进行认证等情况"></a>很多人提交向appstore提交app都是通过transporter进行上传安装包以供审核，会出现 正在验证APP-正在通过App Store进行认证等情况</h3><h3 id="解决方式，可参考链接："><a href="#解决方式，可参考链接：" class="headerlink" title="解决方式，可参考链接："></a>解决方式，可参考链接：</h3><p><a href="https://github.com/iOSDevLog/com.apple.amp.itmstransporter" target="_blank" rel="noopener">https://github.com/iOSDevLog/com.apple.amp.itmstransporter</a></p>
 
       
     </div>
@@ -396,8 +344,8 @@ int main ()
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/08/my-mac-softs/" rel="next" title="常用的Mac软件">
-                <i class="fa fa-chevron-left"></i> 常用的Mac软件
+              <a href="/2020/06/22/iosupdate/" rel="next" title="【转载】iOS 升级后，XCode无法调试">
+                <i class="fa fa-chevron-left"></i> 【转载】iOS 升级后，XCode无法调试
               </a>
             
           </div>
@@ -405,10 +353,6 @@ int main ()
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/10/nsstring-boolvalue/" rel="prev" title="Objective-C中NSString转换成BOOL类型">
-                Objective-C中NSString转换成BOOL类型 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -427,7 +371,7 @@ int main ()
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/01/15/byte-endian/" data-title="字节序-大端与小端" data-content data-url="http://yinghuochong.github.io/2017/01/15/byte-endian/">
+        <div class="ds-share flat" data-thread-key="2020/10/26/uploadipaslow/" data-title="解决使用 Transporter 上传 ipa 到 App Store 时，有时间会卡住或者非常慢。" data-content data-url="http://yinghuochong.github.io/2020/10/26/uploadipaslow/">
   <div class="ds-share-inline">
     <ul class="ds-share-icons-16">
 
@@ -455,7 +399,7 @@ int main ()
 
   
     <div class="comments" id="comments">
-      <div class="ds-thread" data-thread-key="2017/01/15/byte-endian/" data-title="字节序-大端与小端" data-url="http://yinghuochong.github.io/2017/01/15/byte-endian/">
+      <div class="ds-thread" data-thread-key="2020/10/26/uploadipaslow/" data-title="解决使用 Transporter 上传 ipa 到 App Store 时，有时间会卡住或者非常慢。" data-url="http://yinghuochong.github.io/2020/10/26/uploadipaslow/">
       </div>
     </div>
 
@@ -585,7 +529,7 @@ int main ()
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、计算机单位："><span class="nav-number">1.</span> <span class="nav-text">1、计算机单位：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、什么是字节序："><span class="nav-number">2.</span> <span class="nav-text">2、什么是字节序：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、网络字节序"><span class="nav-number">3.</span> <span class="nav-text">3、网络字节序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、查看自己主机自己序"><span class="nav-number">4.</span> <span class="nav-text">4、查看自己主机自己序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、参考资料："><span class="nav-number">5.</span> <span class="nav-text">5、参考资料：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#很多人提交向appstore提交app都是通过transporter进行上传安装包以供审核，会出现-正在验证APP-正在通过App-Store进行认证等情况"><span class="nav-number">1.</span> <span class="nav-text">很多人提交向appstore提交app都是通过transporter进行上传安装包以供审核，会出现 正在验证APP-正在通过App Store进行认证等情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方式，可参考链接："><span class="nav-number">2.</span> <span class="nav-text">解决方式，可参考链接：</span></a></li></ol></div>
             
 
           </div>
