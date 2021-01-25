@@ -87,12 +87,12 @@
 <meta property="og:site_name" content="萤火虫">
 <meta property="og:description" content="1、@property 后面可以有哪些修饰符？分为原子性、存取方法、内存管理、重写方法四组： 1、nonatomic / atomic(默认)2、readonly / readwrite(默认)3、retain / copy / strong /weak / assign / unsafe_unretained4、getter和setter对存取方法重命名5、nonull / nullable">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/ios-property/media/15541197894094.jpg">
-<meta property="og:updated_time" content="2019-12-02T03:20:53.786Z">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/ios-property/15541197894094.jpg">
+<meta property="og:updated_time" content="2021-01-25T05:59:41.120Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="property">
 <meta name="twitter:description" content="1、@property 后面可以有哪些修饰符？分为原子性、存取方法、内存管理、重写方法四组： 1、nonatomic / atomic(默认)2、readonly / readwrite(默认)3、retain / copy / strong /weak / assign / unsafe_unretained4、getter和setter对存取方法重命名5、nonull / nullable">
-<meta name="twitter:image" content="http://yinghuochong.github.io/2019/07/13/ios-property/media/15541197894094.jpg">
+<meta name="twitter:image" content="http://yinghuochong.github.io/2019/07/13/ios-property/15541197894094.jpg">
 
 
 
@@ -400,7 +400,7 @@
 </li>
 </ul>
 <p>@end<br><code>`</code></p>
-<p>结果编译器报错： enter image description here<br><img src="media/15541197894094.jpg" alt></p>
+<p>结果编译器报错： enter image description here<br><img src="15541197894094.jpg" alt></p>
 <p>当你同时重写了 setter 和 getter 时，系统就不会生成 ivar（实例变量/成员变量）。这时候有两种选择：</p>
 <p>要么如第14行：手动创建 ivar<br>要么如第17行：使用@synthesize foo = _foo; ，关联 @property 与 ivar。</p>
 <h1 id="7、-能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？"><a href="#7、-能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？" class="headerlink" title="7、 能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？"></a>7、 能否向编译后得到的类中增加实例变量？能否向运行时创建的类中添加实例变量？为什么？</h1><p>不能向编译后得到的类中增加实例变量；<br>能向运行时创建的类中添加实例变量；<br>解释下：</p>

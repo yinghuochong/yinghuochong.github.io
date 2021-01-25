@@ -87,12 +87,12 @@
 <meta property="og:site_name" content="萤火虫">
 <meta property="og:description" content="1、什么是RunLoop？一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。 但是手机上需要一直检测接受用户输入，事件驱动，必须一直活着。 如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/ios-runloop/media/15528216436954.png">
-<meta property="og:updated_time" content="2019-12-02T03:20:53.788Z">
+<meta property="og:image" content="http://yinghuochong.github.io/2019/07/13/ios-runloop/15528216436954.png">
+<meta property="og:updated_time" content="2021-01-25T05:59:34.916Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RunLoop">
 <meta name="twitter:description" content="1、什么是RunLoop？一般来讲，一个线程一次只能执行一个任务，执行完成后线程就会退出。 但是手机上需要一直检测接受用户输入，事件驱动，必须一直活着。 如果我们需要一个机制，让线程能随时处理事件但并不退出，通常的代码逻辑是这样的：">
-<meta name="twitter:image" content="http://yinghuochong.github.io/2019/07/13/ios-runloop/media/15528216436954.png">
+<meta name="twitter:image" content="http://yinghuochong.github.io/2019/07/13/ios-runloop/15528216436954.png">
 
 
 
@@ -378,7 +378,7 @@
 <h5 id="14、RunLoop-如何处理网络请求？"><a href="#14、RunLoop-如何处理网络请求？" class="headerlink" title="14、RunLoop 如何处理网络请求？"></a>14、RunLoop 如何处理网络请求？</h5><p>通常使用 NSURLConnection 时，你会传入一个 Delegate，当调用了 [connection start] 后，这个 Delegate 就会不停收到事件回调。实际上，start 这个函数的内部会会获取 CurrentRunLoop，然后在其中的 DefaultMode 添加了4个 Source0 (即需要手动触发的Source)。CFMultiplexerSource 是负责各种 Delegate 回调的，CFHTTPCookieStorage 是处理各种 Cookie 的。</p>
 <p>当开始网络传输时，我们可以看到 NSURLConnection 创建了两个新线程：com.apple.NSURLConnectionLoader 和 com.apple.CFSocket.private。其中 CFSocket 线程是处理底层 socket 连接的。NSURLConnectionLoader 这个线程内部会使用 RunLoop 来接收底层 socket 的事件，并通过之前添加的 Source0 通知到上层的 Delegate。</p>
 <p>NSURLConnectionLoader 中的 RunLoop 通过一些基于 mach port 的 Source 接收来自底层 CFSocket 的通知。当收到通知后，其会在合适的时机向 CFMultiplexerSource 等 Source0 发送通知，同时唤醒 Delegate 线程的 RunLoop 来让其处理这些通知。CFMultiplexerSource 会在 Delegate 线程的 RunLoop 对 Delegate 执行实际的回调。</p>
-<p><img src="media/15528216436954.png" alt></p>
+<p><img src="15528216436954.png" alt></p>
 <h5 id="15、可以停止一个RunLoop吗？"><a href="#15、可以停止一个RunLoop吗？" class="headerlink" title="15、可以停止一个RunLoop吗？"></a>15、可以停止一个RunLoop吗？</h5><p>如果runloop没有input sources或者附加的timer，runloop就会退出，虽然可以将runloop退出，但是苹果并不建议我们这么做，因为系统内部有可能会在当前线程的runloop中添加一些输入源，所以通过手动移除input source或者timer这种方式，并不能保证runloop一定会退出。</p>
 <p>可以通过设置超时时间来让RunLoop退出</p>
 <p>强制退出线程 不能让RunLoop退出，回到追内存泄漏</p>
